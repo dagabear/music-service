@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body style="margin: 0; padding: 0; background-color: #f4f7f9; font-family: sans-serif;">
+<table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border-radius: 8px; margin-top: 40px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+    <tr>
+        <td align="center" style="padding: 40px;">
+            <h2 style="color: #1a1a1a;">Welcome to Resona AI!</h2>
+            <p style="color: #4a4a4a; font-size: 16px; line-height: 1.6;">
+                To complete the registration press the button below:
+            </p>
+            <div style="margin-top: 30px;">
+                <a th:href="${verificationUrl}"
+                   style="background-color: #4F46E5; color: #ffffff; padding: 15px 25px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">
+                    Confirm Email
+                </a>
+                <div>
+                    Your password:
+                </div>
+                <span th:text="${password}"></span>
+            </div>
+            <p style="margin-top: 30px; font-size: 12px; color: #999999;">
+                If the button is not working, copy this link to the browser:<br>
+                <a th:href="${verificationUrl}" th:text="${verificationUrl}" style="color: #4F46E5;">https://genvibe.kz/verify</a>
+            </p>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
