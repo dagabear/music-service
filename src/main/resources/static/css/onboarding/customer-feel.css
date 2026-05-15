@@ -1,0 +1,83 @@
+.feel-container {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin: 56px 56px 40px 56px;
+}
+
+.feel-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+.feel-card {
+    display: flex;
+    flex-direction: column;
+    width: 480px;
+    height: 111px;
+    background: #fcfcfc;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 16px 16px 24px 16px;
+    cursor: pointer;
+    transition: 0.2s;
+    position: relative;
+    gap: 8px;
+    box-shadow:
+            inset 0px 1px 0px 1px #FFFFFF,
+            0px 2px 8px 0px #00000012;
+}
+.feel-card input {
+    display: none;
+}
+.feel-card.active {
+    background: #000;
+    color: #fff;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    box-shadow: none;
+}
+.feel-card.active .card-desc {
+    color: #ccc;
+}
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.card-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+}
+.card-desc {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+}
+.full-width {
+    grid-column: span 2;
+}
+hr {
+    width: 100%;
+    height: 1px;
+    background: #000000;
+    opacity: 0.16;
+    border: none;
+    margin: 16px 0 32px 0;
+}
+.form-footer {
+    grid-column: span 2;
+    display: flex;
+    flex-direction: column;
+}
+
+
+button:last-child {
+    margin-left: auto;
+}
+.check-icon {
+    font-size: 14px;
+}

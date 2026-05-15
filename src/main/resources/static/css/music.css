@@ -1,0 +1,335 @@
+
+
+.back-link {
+    position: absolute;
+    left: -45px;
+    top: 5px;
+    text-decoration: none;
+    color: #000;
+    font-size: 1.5rem;
+    background: #fff;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.music-subtitle h3 {
+    color: #000000;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+.music-subtitle p{
+    color: #00000080;
+    font-size: 12px;
+}
+
+/* Список карточек */
+.music-type-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.music-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.music-card {
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    gap: 24px;
+    border: 1px solid #EEE;
+    background: #FFFFFF66;
+    padding: 16px;
+    border-top: 1.5px solid;
+    border-image-source: linear-gradient(167.06deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 22.24%);
+    border-image-slice: 1;
+    box-shadow: 0px 1px 0px 1px #FFFFFF inset, 0px 2px 8px 0px #00000012;
+}
+
+.music-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.music-icon-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    margin-right: 20px;
+    object-fit: contain; /* Чтобы иконка не растягивалась */
+}
+
+.music-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 300px;
+}
+
+.music-info h3 {
+    font-size: 18px;
+    font-weight: 400;
+    color: black;
+}
+
+.music-info p {
+    font-weight: 400;
+    font-size: 14px;
+    color: #00000080;
+}
+
+/* Стилизация волны */
+.waveform {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    flex-grow: 1;
+    padding: 0 40px;
+    opacity: 0.3;
+}
+
+.bar {
+    width: 3px;
+    background: #333;
+    border-radius: 2px;
+}
+
+/* Разная высота для имитации волны */
+.bar:nth-child(odd) { height: 15px; }
+.bar:nth-child(even) { height: 25px; }
+.bar:nth-child(3n) { height: 10px; }
+.bar:nth-child(4n) { height: 35px; }
+
+/* Кнопка Play */
+.btn-play {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s;
+}
+
+.btn-play:hover {
+    background: #f9f9f9;
+}
+
+/* Футер действий */
+.action-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 8px;
+    right: 60px;
+    text-align: right;
+}
+
+.footer-buttons {
+    display: flex;
+    gap: 24px;
+    justify-content: flex-end;
+    margin-bottom: 12px;
+}
+
+.btn-cancel {
+    background: #F5F3F1;
+    border: 1px solid #00000033;
+    padding: 12px 16px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: #000;
+    font-weight: 400;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-save {
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-weight: 400;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-save:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.footer-note {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+.atmosphere-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    border-radius: 20px;
+    padding: 25px;
+    background: #FFFFFF66;
+    backdrop-filter: blur(40px);
+    box-shadow:
+            0 1px 1px rgba(255, 255, 255, 0.25),
+            0 -1px 1px rgba(255, 255, 255, 0.05),
+            0 8px 6px rgba(0, 0, 0, 0.05);
+    border-top: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.chip {
+    position: relative;
+    cursor: pointer;
+}
+
+.chip input {
+    display: none;
+}
+
+.chip span {
+    display: inline-block;
+    padding: 10px 24px;
+    border-radius: 999px;
+    border: 1px solid #00000033;
+    background: #FFFFFF66;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    transition: all 0.2s;
+    color: #00000080;
+}
+
+.chip input:checked + span {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+    font-family: 'Inter', sans-serif; !important;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.chip.full span {
+    width: 100%;
+    text-align: center;
+}
+
+.sub-chips {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.chip.small span {
+    font-size: 12px;
+    padding: 8px 14px;
+}
+.selected-info{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 8px;
+    background: linear-gradient(90deg, rgba(251, 200, 212, 0.3) 0%, rgba(151, 149, 240, 0.3) 100%);
+    border-radius: 12px;
+    padding: 16px;
+}
+.selected-info span{
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.music-container{
+    background: #FFFFFF66;
+    border-radius: 20px;
+    width: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 16px;
+    border-top: 1.5px solid;
+    border-image-source: linear-gradient(167.06deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 22.24%);
+    border-image-slice: 1;
+    box-shadow: 0px 1px 0px 1px #FFFFFF inset, 0px 2px 8px 0px #00000012;
+}
+.music-container h3{
+    font-size: 16px;
+}
+
+.waveform-placeholder {
+    flex-grow: 1;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    max-width: 300px;
+}
+
+.waveCanvas {
+    width: 300px;
+    height: 34px;
+    display: block;
+}
+
+.play-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid #00000033;
+    cursor: pointer;
+    background: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 0;
+}
+
+.play-btn .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+}
+
+.play-btn .icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+.selected-badge {
+    display: none;
+
+    background: #E8F5E9;
+    color: #10A102;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    padding: 6px 12px;
+    border-radius: 999px;
+}
+
+.music-card.selected .selected-badge {
+    display: inline-flex;
+}

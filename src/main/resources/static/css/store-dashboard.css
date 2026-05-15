@@ -1,0 +1,237 @@
+.content-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+/* ===== MAIN CONTENT ===== */
+.main-container {
+    background: linear-gradient(90deg, #F3E7E9 0%, #E3EEFF 100%);
+    margin-left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
+    min-height: 100vh;
+    padding: 32px 140px 0 40px;
+    box-sizing: border-box;
+}
+
+.store-link {
+    font-size: 11px;
+    color: #888;
+    margin-bottom: 24px;
+    display: block;
+}
+
+.page-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin-bottom: 4px;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 32px;
+}
+/* ===== ORB ===== */
+.orb-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 80px 0 40px 0;
+}
+.orb-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 60px 0 40px 0;
+}
+
+.orb {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.orb img {
+    position: absolute;
+    width: 250%;
+    height: 250%;
+    object-fit: cover;
+    pointer-events: none; /* ← добавь это */
+    -webkit-mask-image: radial-gradient(circle, black 49%, transparent 50%);
+    mask-image: radial-gradient(circle, black 49%, transparent 50%);
+    transition: transform 0.3s ease;
+}
+
+.orb:hover img {
+    transform: scale(1.03);
+}
+
+.orb-play {
+    position: relative;
+    z-index: 10;
+    width: 100px;
+    height: 100px;
+    filter:
+            drop-shadow(0px 12.8px 25.6px rgba(0,0,0,0.06))
+            drop-shadow(0px 3.2px 6.4px rgba(0,0,0,0.04))
+            drop-shadow(0px 0.8px 3.2px rgba(0,0,0,0.04));
+}
+
+.orb-play svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: 100px;
+    overflow: visible;
+}
+
+#icon-pause {
+    display: none;
+}
+
+
+.icon-store {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    fill: #00000033;
+    width: 16px;
+    height: 16px;
+}
+.icon-store span{
+    fill: #00000033;
+}
+.icon-store svg path{
+    fill: #00000029;
+}
+
+
+/* ===== ACTIVE JINGLES ===== */
+.active-jingles-card {
+    display: flex;
+    flex-direction: column;
+    background: rgba(255,255,255,0.7);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.8);
+    padding: 16px;
+    background: #FFFFFF66;
+    width: auto;    justify-content: space-between;
+    border-top: 1.5px solid;
+    border-image-source: linear-gradient(167.06deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 22.24%);
+    border-image-slice: 1;
+    backdrop-filter: blur(40px);
+    box-shadow: 0 1px 1px rgba(255, 255, 255, 0.25), 0 -1px 1px rgba(255, 255, 255, 0.05), 0 8px 6px rgba(0, 0, 0, 0.05);
+    border-top: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+.active-jingles-card h2 {
+    font-size: 16px;
+    font-weight: 400;
+    color: black;
+    margin-bottom: 16px;
+}
+
+.jingle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px;
+    background: #fff;
+    border-radius: 14px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: box-shadow 0.15s;
+}
+
+.jingle-row:last-child {
+    margin-bottom: 0;
+}
+
+.jingle-row:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+}
+
+.jingle-info{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.jingle-info h4 {
+    font-size: 16px;
+    font-weight: 400;
+    color: black;
+    margin: 0;
+    padding: 0;
+}
+
+.jingle-meta {
+    font-size: 14px;
+    color: #00000080;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.jingle-repeating {
+    font-size: 12px;
+    color: #888;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.btn-pause {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    background: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    color: #1a1a2e;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    white-space: nowrap;
+    font-family: 'Inter', sans-serif;
+}
+
+.btn-pause:hover {
+    background: #f5f5f5;
+    border-color: #ccc;
+}
+
+.btn-pause svg {
+    width: 12px;
+    height: 12px;
+    fill: #1a1a2e;
+}
+
+/* ===== OLD DASHBOARD GRID (hidden / replaced) ===== */
+.dashboard-grid {
+    display: none;
+}
+
+#icon-pause {
+    display: none;
+}
+
+#icon-play {
+    display: block;
+}
+
+.orb-play.is-playing #icon-play {
+    display: none;
+}
+
+.orb-play.is-playing #icon-pause {
+    display: block;
+}

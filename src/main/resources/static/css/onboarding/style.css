@@ -1,0 +1,214 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #F5F3F1;
+    color: #111;
+}
+
+ /*Layout */
+.onboarding-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.onboarding-container {
+    display: flex;
+    width: auto;
+    height: auto;
+    border-radius: 20px;
+    overflow: visible;
+}
+
+/* Left */
+.onboarding-left {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(40px);
+}
+
+.onboarding-right {
+    display: flex;
+    position: relative;
+    width: auto;
+    height: auto;
+    align-items: center;
+    border-radius: 20px;
+    overflow: visible;
+    background: #FFFFFF66;
+    backdrop-filter: blur(40px);
+    box-shadow:
+            0 1px 1px rgba(255, 255, 255, 0.25),
+            0 -1px 1px rgba(255, 255, 255, 0.05),
+            0 8px 6px rgba(0, 0, 0, 0.05);
+    border-top: 2px solid rgba(255, 255, 255, 0.4);
+    box-sizing: border-box;
+}
+/* Typography */
+h1 {
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 120%;
+    letter-spacing: -2px;
+}
+
+p {
+    color: #00000080;
+    font-size: 16px;
+    font-weight: 400;
+}
+.title-content h1{
+    margin-bottom: 12px;
+}
+/* Form */
+.form-group {
+    margin-bottom: 16px;
+}
+.form-group p{
+    margin-bottom: 4px;
+}
+.form-group input {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid #00000033;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #00000080;
+    transition: 0.2s;
+    padding: 18px 16px 18px 16px;
+    background: #FFFFFF66;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    height: 54px;
+    outline: none;
+}
+
+.select-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.select-wrapper select {
+    width: 100%;
+    padding: 16px 40px 16px 16px;
+    border-radius: 10px;
+    border: 1px solid #00000033;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #FFFFFF66;
+    transition: border 0.2s;
+}
+
+/* Button */
+.btn-primary {
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    background: #000000;
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: 0.2s;
+    height: 54px;
+    width: 246px;
+}
+
+.btn-primary:hover {
+    opacity: 0.9;
+}
+input:valid {
+    color: #000;
+}
+
+.custom-select-wrapper {
+    position: relative;
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+}
+
+.custom-select-header {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 16px;
+    border: 1px solid #00000033;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #FFFFFF66;
+    color: #00000080;
+    transition: border 0.2s, color 0.2s;
+}
+
+.custom-select-header.selected {
+    color: #000;
+}
+
+.custom-select-header .arrow {
+    transition: transform 0.2s ease;
+}
+
+.custom-select-wrapper.active .arrow {
+    transform: rotate(180deg);
+}
+
+.custom-select-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #FFFFFF;
+    border: 1px solid #00000033;
+    border-radius: 10px;
+    margin-top: 4px;
+    list-style: none;
+    padding: 0;
+    display: none;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 9999;
+    pointer-events: auto;
+}
+
+.custom-select-wrapper.active .custom-select-options {
+    display: block;
+}
+
+.custom-select-options li {
+    padding: 12px 16px;
+    cursor: pointer;
+    color: #000;
+    transition: color 0.2s;
+}
+
+.custom-select-options li:hover {
+    color: #00000080;
+}
+/* Responsive */
+@media (max-width: 768px) {
+    .onboarding-container {
+        grid-template-columns: 1fr;
+    }
+
+    .onboarding-left {
+        display: none;
+    }
+}

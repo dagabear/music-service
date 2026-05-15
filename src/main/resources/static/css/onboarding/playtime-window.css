@@ -1,0 +1,40 @@
+.playtime-content { 
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    max-width: 516px;
+    margin: 56px 56px 40px 56px;
+}
+.pills-group { display: flex; flex-wrap: wrap; gap: 16px; }
+.pill-item input { display: none; }
+.pill-item span {
+    display: inline-block;
+    padding: 0 24px;
+    border-radius: 1rem;
+    line-height: 46px;
+    border: 1px solid #00000033;
+    background: #FFFFFF66;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    transition: all 0.2s;
+    color: #00000080;
+    cursor: pointer;
+}
+.pill-item input:checked + span {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+    font-family: 'Inter', sans-serif; !important;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+hr{
+    width: 100%;
+    height: 1px;
+    background: #000000;
+    opacity: 0.16;
+    border: none;
+    margin: 32px 0;
+}

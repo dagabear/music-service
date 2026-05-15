@@ -1,0 +1,91 @@
+.register-content {
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+    margin: auto 56px;
+    width: 425px;
+}
+
+.password-wrapper {
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.password-wrapper input {
+    width: 100%;
+    padding: 14px 48px 14px 16px;
+    border-radius: 10px;
+    border: 1px solid #00000033;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #00000080;
+    transition: 0.2s;
+    background: #FFFFFF66;
+}
+.form-group input {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid #00000033;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #000;
+    transition: 0.2s;
+    padding: 18px 16px 18px 16px;
+    background: #FFFFFF66;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    height: 54px;
+    outline: none;
+}
+input:valid {
+    color: #000;
+}
+.password-wrapper .toggle-password {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper svg {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.2s ease;
+}
+.password-wrapper input:focus {
+    outline: none;
+    border: 1px solid #00000033;
+}
+
+.password-wrapper .toggle-password:hover svg {
+    opacity: 0.8;
+    transform: scale(1.1);
+}
+hr{
+    width: 100%;
+    height: 1px;
+    background: #000000;
+    opacity: 0.16;
+    border: none;
+    margin: 34px 0;
+}
+.btn{
+    font-weight: 500;
+    width: 100%;
+    padding: 14px;
+    border-radius: 1rem;
+    border: none;
+    background: #000000;
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+    height: 54px;
+}
