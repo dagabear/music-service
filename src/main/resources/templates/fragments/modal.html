@@ -1,0 +1,15 @@
+<div th:fragment="modal(content)">
+
+  <div id="modalOverlay" class="modal-overlay" onclick="closeModal()"></div>
+
+  <div id="modal" class="modal">
+    <div class="modal-header">
+      <span class="close" onclick="closeModal()">&times;</span>
+    </div>
+
+    <div class="modal-body">
+      <div th:insert="${content}"></div>
+    </div>
+  </div>
+
+</div>

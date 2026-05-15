@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+
+<div th:fragment="sidebar(activePage)">
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <div class="title-content">
+                <h2>Resona AI</h2>
+                <p>Admin Panel</p>
+            </div>
+            <hr>
+        </div>
+
+        <div class="sidebar-menu">
+
+            <!-- Dashboard доступен всем -->
+            <a th:href="@{/dashboard}" class="menu-item"
+               th:classappend="${activePage == 'dashboard'} ? 'active'">
+                <span class="icon" th:replace="~{fragments/icons :: icon-dashboard}"></span>
+                Dashboard
+            </a>
+
+            <!-- Остальные только для ADMIN -->
+            <div sec:authorize="hasRole('ADMIN')">
+
+                <a th:href="@{/music}" class="menu-item"
+                   th:classappend="${activePage == 'music'} ? 'active'">
+                    <span class="icon" th:replace="~{fragments/icons :: icon-music}"></span>
+                    Music Library
+                </a>
+
+                <a th:href="@{/stores}" class="menu-item"
+                   th:classappend="${activePage == 'stores'} ? 'active'">
+                    <span class="icon" th:replace="~{fragments/icons :: icon-store}"></span>
+                    Stores
+                </a>
+
+                <a th:href="@{/jingles}" class="menu-item"
+                   th:classappend="${activePage == 'jingles'} ? 'active'">
+                    <span class="icon" th:replace="~{fragments/icons :: icon-jingle}"></span>
+                    Jingles
+                </a>
+
+                <a th:href="@{/analytics}" class="menu-item"
+                   th:classappend="${activePage == 'analytics'} ? 'active'">
+                    <span class="icon" th:replace="~{fragments/icons :: icon-analytics}"></span>
+                    Analytics
+                </a>
+
+                <a th:href="@{/settings}" class="menu-item"
+                   th:classappend="${activePage == 'settings'} ? 'active'">
+                    <span class="icon" th:replace="~{fragments/icons :: icon-settings}"></span>
+                    Settings
+                </a>
+
+            </div>
+        </div>
+
+        <div class="sidebar-footer">
+            <a th:href="@{'mailto:numi@weresona.com'}" class="footer-action">
+                <span class="icon" th:replace="~{fragments/icons :: icon-help}"></span>
+                Help Center
+            </a>
+
+            <hr>
+
+            <div class="user-profile">
+                <span class="icon" th:replace="~{fragments/icons :: icon-account}"></span>
+                <div class="user-info">
+                    <span class="user-name" th:text="${organization.companyName}">Company name</span>
+                    <span class="user-role">Admin</span>
+                </div>
+            </div>
+
+        </div>
+
+    </nav>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(
+                    ~{::content},
+                    'Dashboard - GenVibe',
+                    'settings.css',
+                    'Settings',
+                    'settings'
+                    )}">
+
+<th:block th:fragment="content">
+    <div class="settings-container">
+
+        <div class="settings-grid">
+            <section class="settings-card">
+                <div class="card-header">
+                    <h2>Profile</h2>
+                    <button class="btn-edit" onclick="openModal('profileModal')">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.45766 1.61293C9.57024 1.60029 9.68402 1.60029 9.7966 1.61293C10.1033 1.64738 10.35 1.78947 10.5713 1.96271C10.7785 2.12484 11.0076 2.35056 11.2709 2.61041L11.6862 3.0257C11.7995 3.14294 11.9001 3.25307 11.9841 3.35781C12.1635 3.58134 12.3113 3.83178 12.347 4.14451C12.36 4.25898 12.3601 4.37469 12.347 4.48916C12.3113 4.80177 12.1634 5.05183 11.9841 5.27529C11.8161 5.48473 11.5818 5.71596 11.3119 5.98224L5.28944 11.9255C5.27487 11.9399 5.26051 11.9546 5.24615 11.9688C5.03986 12.173 4.85237 12.3583 4.61382 12.4701C4.5689 12.4912 4.52274 12.5099 4.47597 12.5265C4.22772 12.6144 3.96455 12.6141 3.67445 12.6137H3.55027C3.18345 12.6137 2.86471 12.6134 2.60577 12.584C2.32949 12.5527 2.05632 12.4821 1.81508 12.2952C1.71406 12.2169 1.62335 12.1262 1.54506 12.0252C1.35818 11.784 1.28761 11.5108 1.25624 11.2345C1.22685 10.9756 1.2266 10.6568 1.22662 10.29V10.2017C1.22621 9.91808 1.22591 9.66091 1.30979 9.41787C1.33082 9.35691 1.3558 9.29735 1.38441 9.23956C1.49851 9.00911 1.68178 8.82845 1.88401 8.62946C1.89808 8.61561 1.91249 8.60192 1.92673 8.58787L7.98394 2.61041C8.24714 2.35065 8.47584 2.1248 8.68292 1.96271C8.9042 1.7895 9.15098 1.64741 9.45766 1.61293ZM9.57501 2.65655C9.53982 2.66051 9.47502 2.67582 9.33005 2.78929C9.17624 2.90968 8.99025 3.09188 8.70058 3.37775L8.40606 3.66941L10.2837 5.52195L10.5537 5.25535C10.8502 4.96272 11.0397 4.77452 11.1649 4.61847C11.283 4.47137 11.2993 4.40556 11.3034 4.3701C11.3074 4.33479 11.3074 4.29888 11.3034 4.26357C11.2993 4.22814 11.2831 4.16246 11.1649 4.0152C11.0397 3.85911 10.8503 3.67049 10.5537 3.37775C10.2641 3.09193 10.078 2.90967 9.92421 2.78929C9.77931 2.67589 9.71444 2.66051 9.67925 2.65655C9.6446 2.65268 9.60966 2.65266 9.57501 2.65655Z" fill="black"/>
+                        </svg>
+                        Edit
+                    </button>
+                </div>
+                <div class="form-group">
+                    <label>Full name</label>
+                    <input type="text" th:value="${appUser.fullName}" readonly placeholder="Not set">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" th:value="${appUser.email}" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <input type="text" th:value="${appUser.companyRole}" readonly placeholder="e.g. Marketing Manager">
+                </div>
+            </section>
+
+            <section class="settings-card">
+                <div class="card-header">
+                    <h2 class="company-name">Company</h2>
+                </div>
+                <div class="form-group">
+                    <label>Company name</label>
+                    <input type="text" th:value="${organization.companyName}" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Type</label>
+                    <input type="text" th:value="${organization.businessType.name}" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Space atmosphere</label>
+                    <input type="text" th:value="${organization.musicAtmosphere.name}" readonly>
+                </div>
+            </section>
+        </div>
+
+        <section class="settings-card full-width">
+            <div class="card-header">
+                <div class="header-container">
+                    <h2>Atmosphere</h2>
+                    <p>Select the AI-generated atmosphere for all your stores. You can update this anytime.</p>
+                </div>
+                <a class="btn-edit" th:href="@{/music}">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.45766 1.61293C9.57024 1.60029 9.68402 1.60029 9.7966 1.61293C10.1033 1.64738 10.35 1.78947 10.5713 1.96271C10.7785 2.12484 11.0076 2.35056 11.2709 2.61041L11.6862 3.0257C11.7995 3.14294 11.9001 3.25307 11.9841 3.35781C12.1635 3.58134 12.3113 3.83178 12.347 4.14451C12.36 4.25898 12.3601 4.37469 12.347 4.48916C12.3113 4.80177 12.1634 5.05183 11.9841 5.27529C11.8161 5.48473 11.5818 5.71596 11.3119 5.98224L5.28944 11.9255C5.27487 11.9399 5.26051 11.9546 5.24615 11.9688C5.03986 12.173 4.85237 12.3583 4.61382 12.4701C4.5689 12.4912 4.52274 12.5099 4.47597 12.5265C4.22772 12.6144 3.96455 12.6141 3.67445 12.6137H3.55027C3.18345 12.6137 2.86471 12.6134 2.60577 12.584C2.32949 12.5527 2.05632 12.4821 1.81508 12.2952C1.71406 12.2169 1.62335 12.1262 1.54506 12.0252C1.35818 11.784 1.28761 11.5108 1.25624 11.2345C1.22685 10.9756 1.2266 10.6568 1.22662 10.29V10.2017C1.22621 9.91808 1.22591 9.66091 1.30979 9.41787C1.33082 9.35691 1.3558 9.29735 1.38441 9.23956C1.49851 9.00911 1.68178 8.82845 1.88401 8.62946C1.89808 8.61561 1.91249 8.60192 1.92673 8.58787L7.98394 2.61041C8.24714 2.35065 8.47584 2.1248 8.68292 1.96271C8.9042 1.7895 9.15098 1.64741 9.45766 1.61293ZM9.57501 2.65655C9.53982 2.66051 9.47502 2.67582 9.33005 2.78929C9.17624 2.90968 8.99025 3.09188 8.70058 3.37775L8.40606 3.66941L10.2837 5.52195L10.5537 5.25535C10.8502 4.96272 11.0397 4.77452 11.1649 4.61847C11.283 4.47137 11.2993 4.40556 11.3034 4.3701C11.3074 4.33479 11.3074 4.29888 11.3034 4.26357C11.2993 4.22814 11.2831 4.16246 11.1649 4.0152C11.0397 3.85911 10.8503 3.67049 10.5537 3.37775C10.2641 3.09193 10.078 2.90967 9.92421 2.78929C9.77931 2.67589 9.71444 2.66051 9.67925 2.65655C9.6446 2.65268 9.60966 2.65266 9.57501 2.65655Z" fill="black"/>
+                    </svg>
+                    Edit
+                </a>
+            </div>
+            <div class="tags-container">
+                <span th:each="type : ${musicAtmospheres}"
+                      th:text="${type.name}"
+                      th:classappend="${#lists.contains(organization.musicAtmosphere, type)} ? ' active' : ''"
+                      class="tag">
+                </span>
+            </div>
+            <div class="selected-info">
+                <p>Selected</p>
+                <span th:text="${organization.musicAtmosphere.name + ' / ' + organization.musicMood.name}"></span>
+            </div>
+        </section>
+
+        <section class="settings-card full-width">
+            <h2>Notifications</h2>
+            <div class="switch-item">
+                <div class="switch-info">
+                    <span>Store activity alerts</span>
+                    <p>When a store accesses music</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" onchange="toggleSwitch(this)">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="switch-item">
+                <div class="switch-info">
+                    <span>Link expiry reminders</span>
+                    <p>Before store links expire</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" onchange="toggleSwitch(this)">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="switch-item">
+                <div class="switch-info">
+                    <span>Weekly usage digest</span>
+                    <p>Every Monday morning</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" onchange="toggleSwitch(this)">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="switch-item">
+                <div class="switch-info">
+                    <span>New features</span>
+                    <p>Product updates & announcements</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" onchange="toggleSwitch(this)">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </section>
+    </div>
+
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <h2 class="modal-title">Edit profile</h2>
+            <form th:action="@{/users}" th:method="patch">
+                <h3>Profile</h3>
+                <div class="form-group">
+                    <label>Full name</label>
+                    <input type="text" name="fullName" th:value="${appUser.fullName}" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" th:value="${appUser.email}" required>
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <input type="text" name="companyRole" th:value="${appUser.companyRole}">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" onclick="closeModal('profileModal')">Cancel</button>
+                    <button type="submit" class="btn-save-modal">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openModal(id) { document.getElementById(id).classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+        function toggleSwitch(el) {
+            console.log("Switch:", el.checked);
+        }
+    </script>
+</th:block>
+</html>

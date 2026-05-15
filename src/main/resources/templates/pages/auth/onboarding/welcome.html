@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/onboarding :: layout(~{::content}, 'Welcome', 'welcome.css', 'step-1.png')}">
+
+<th:block th:fragment="content">
+    <div class="welcome-content">
+        <div class="title-content">
+            <h1>Welcome to Resona AI</h1>
+            <p>Complete some quick steps to kick start your music experience. It will take less than a minute!</p>
+        </div>
+
+        <form th:action="@{/onboarding/step-1}"
+              th:object="${step1Dto}"
+              method="post">
+
+            <!-- Company name -->
+            <div class="form-group">
+                <input type="text"
+                       th:field="*{companyName}"
+                       placeholder="Company name">
+
+                <div class="error-message"
+                     th:if="${#fields.hasErrors('companyName')}"
+                     th:errors="*{companyName}">
+                </div>
+            </div>
+
+            <!-- Business type -->
+            <div class="form-group">
+                <div class="custom-select-wrapper">
+                    <div class="custom-select-header">
+                        Select your business type
+                        <svg class="arrow" width="12" height="7" viewBox="0 0 12 7" fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0.292774 0.292763C0.683265 -0.0975876 1.31667 -0.0975875 1.70716 0.292763L5.52715 4.11356C5.61109 4.19751 5.67752 4.26328 5.73548 4.31946C5.74486 4.32855 5.75388 4.33741 5.76234 4.3455C5.77094 4.33727 5.78043 4.32873 5.79001 4.31946C5.84796 4.26329 5.91442 4.19748 5.99834 4.11356L9.81833 0.292763L9.89482 0.224403C10.2875 -0.0957548 10.8666 -0.0730459 11.2327 0.292763C11.5988 0.65885 11.6221 1.23871 11.3019 1.63147L11.2327 1.70715L7.41273 5.52714C7.25942 5.68044 7.10244 5.83893 6.95781 5.96171C6.80428 6.09203 6.60006 6.23999 6.32956 6.32792C5.96146 6.4475 5.56485 6.44746 5.19675 6.32792L5.09828 6.29293C4.87559 6.20385 4.70214 6.07586 4.56768 5.96171C4.42307 5.83893 4.26604 5.68041 4.11276 5.52714L0.292774 1.70715C-0.0975841 1.31665 -0.0975983 0.683253 0.292774 0.292763Z"
+                                  fill="black"/>
+                        </svg>
+                    </div>
+
+                    <ul class="custom-select-options">
+                        <li th:each="type : ${businessTypes}"
+                            th:data-value="${type}"
+                            th:text="${type.name}">
+                            Restaurant
+                        </li>
+                    </ul>
+
+                    <input type="hidden" th:field="*{businessType}">
+                </div>
+
+                <div class="error-message"
+                     th:if="${#fields.hasErrors('businessType')}"
+                     th:errors="*{businessType}">
+                </div>
+            </div>
+
+            <!-- Music provider -->
+            <div class="form-group">
+                <p>How do you currently play music in your business?</p>
+
+                <div class="custom-select-wrapper">
+                    <div class="custom-select-header">
+                        Select music provider
+                        <span class="icon" th:replace="~{fragments/icons :: icon-select}"></span>
+                    </div>
+
+                    <ul class="custom-select-options">
+                        <li th:each="provider : ${musicProviders}"
+                            th:text="${provider.name}"
+                            th:data-value="${provider}">
+                            Spotify
+                        </li>
+                    </ul>
+
+                    <input type="hidden" th:field="*{musicProvider}">
+                </div>
+
+                <div class="error-message"
+                     th:if="${#fields.hasErrors('musicProvider')}"
+                     th:errors="*{musicProvider}">
+                </div>
+            </div>
+
+            <button class="btn" type="submit">Continue</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.custom-select-wrapper').forEach(wrapper => {
+                const header = wrapper.querySelector('.custom-select-header');
+                const options = wrapper.querySelectorAll('.custom-select-options li');
+                const hiddenInput = wrapper.querySelector('input[type="hidden"]');
+
+                let headerTextNode = Array.from(header.childNodes)
+                    .find(node => node.nodeType === Node.TEXT_NODE);
+
+                if (!headerTextNode) {
+                    headerTextNode = document.createTextNode('');
+                    header.insertBefore(headerTextNode, header.firstChild);
+                }
+
+                header.addEventListener('click', () => {
+                    document.querySelectorAll('.custom-select-wrapper')
+                        .forEach(w => {
+                            if (w !== wrapper) w.classList.remove('active');
+                        });
+
+                    wrapper.classList.toggle('active');
+                });
+
+                options.forEach(option => {
+                    option.addEventListener('click', () => {
+                        headerTextNode.textContent = option.textContent.trim() + ' ';
+                        header.classList.add('selected');
+                        hiddenInput.value = option.dataset.value;
+                        wrapper.classList.remove('active');
+                    });
+                });
+
+                document.addEventListener('click', e => {
+                    if (!wrapper.contains(e.target)) {
+                        wrapper.classList.remove('active');
+                    }
+                });
+            });
+        });
+    </script>
+</th:block>
+</html>

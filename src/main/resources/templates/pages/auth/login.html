@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/onboarding :: layout(~{::content}, 'Create Account', 'register.css', 'step-7.png')}">
+
+<th:block th:fragment="content">
+    <div class="register-content">
+        <h1>Welcome to Resona AI</h1>
+
+        <form method="post" th:action="@{/auth/login}">
+
+            <div class="form-group">
+                <input type="email" name="email" placeholder="Email" required>
+            </div>
+
+            <div class="password-wrapper">
+                <input type="password" name="password" placeholder="Password" required>
+                <span class="toggle-password"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0068 4.22217C15.709 4.22217 19.0121 6.75332 21.1699 8.93213C22.3974 10.1716 23.0116 10.791 23.0117 12.0249C23.0117 13.2591 22.3976 13.8791 21.1699 15.1187C19.012 17.2974 15.709 19.8276 12.0068 19.8276C8.30482 19.8274 5.00153 17.2974 2.84375 15.1187C1.61632 13.8793 1.00293 13.259 1.00293 12.0249C1.00307 10.7912 1.6165 10.1713 2.84375 8.93213C5.00153 6.7534 8.30482 4.22238 12.0068 4.22217ZM12 7.49951C9.51486 7.49951 7.50023 9.51442 7.5 11.9995C7.5 14.4848 9.51472 16.4995 12 16.4995C14.4853 16.4995 16.5 14.4848 16.5 11.9995C16.4998 9.51442 14.4851 7.49951 12 7.49951Z" fill="black"/>
+                </svg></span>
+
+            </div>
+            <hr>
+            <button class="btn" type="submit">Login</button>
+        </form>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                document.querySelectorAll('.password-wrapper').forEach(wrapper => {
+                    const input = wrapper.querySelector('input[type="password"]');
+                    const toggle = wrapper.querySelector('span.toggle-password');
+                    let svg = wrapper.querySelector('svg');
+
+                    const eyeClosed = `
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0068 4.22217C15.709 4.22217 19.0121 6.75332 21.1699 8.93213C22.3974 10.1716 23.0116 10.791 23.0117 12.0249C23.0117 13.2591 22.3976 13.8791 21.1699 15.1187C19.012 17.2974 15.709 19.8276 12.0068 19.8276C8.30482 19.8274 5.00153 17.2974 2.84375 15.1187C1.61632 13.8793 1.00293 13.259 1.00293 12.0249C1.00307 10.7912 1.6165 10.1713 2.84375 8.93213C5.00153 6.7534 8.30482 4.22238 12.0068 4.22217ZM12 7.49951C9.51486 7.49951 7.50023 9.51442 7.5 11.9995C7.5 14.4848 9.51472 16.4995 12 16.4995C14.4853 16.4995 16.5 14.4848 16.5 11.9995C16.4998 9.51442 14.4851 7.49951 12 7.49951Z" fill="black"/>
+      </svg>
+    `;
+
+                    const eyeOpen = `
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18.6358 4.09803C18.9873 3.74665 19.5578 3.74659 19.9092 4.09803C20.2604 4.44949 20.2605 5.02008 19.9092 5.37147L5.36039 19.9193L5.29204 19.9818C4.93854 20.2699 4.41639 20.2487 4.08696 19.9193C3.75772 19.5899 3.73739 19.0686 4.02543 18.7152L4.08696 18.6459L18.6358 4.09803Z" fill="black"/>
+        <path d="M19.6514 7.53065C20.4415 8.19638 21.1431 8.88387 21.7315 9.51697C22.3316 10.1627 22.6318 10.4862 22.834 11.141C22.9747 11.5974 22.9748 12.4555 22.834 12.9115C22.6318 13.5658 22.3314 13.8899 21.7315 14.5355C19.6114 16.8167 16.0468 19.8283 12.0079 19.8285C10.6763 19.8284 9.39675 19.4994 8.20317 18.9789L10.836 16.3461C11.2073 16.4453 11.5974 16.5003 12 16.5004C14.485 16.5004 16.4996 14.4853 16.5 12.0004C16.5 11.5976 16.446 11.2068 16.3467 10.8353L19.6514 7.53065Z" fill="black"/>
+        <path d="M12.0079 4.22303C13.3219 4.22308 14.5855 4.54238 15.7657 5.05115L13.1641 7.65272C12.7928 7.55355 12.4026 7.50037 12 7.50037C9.51514 7.50066 7.50027 9.51546 7.50004 12.0004C7.50012 12.4028 7.55322 12.7933 7.65239 13.1644L4.32719 16.4906C3.5522 15.8347 2.86343 15.1587 2.28422 14.5355C1.68419 13.8898 1.38295 13.566 1.18071 12.9115C1.03993 12.4556 1.04012 11.5975 1.18071 11.141C1.38289 10.4863 1.68436 10.1625 2.28422 9.51697C4.40425 7.23575 7.96873 4.2232 12.0079 4.22303Z" fill="black"/>
+      </svg>
+    `;
+
+                    toggle.addEventListener('click', () => {
+                        if (input.type === 'password') {
+                            input.type = 'text';
+                            svg.outerHTML = eyeOpen;
+                        } else {
+                            input.type = 'password';
+                            svg.outerHTML = eyeClosed;
+                        }
+                        svg = wrapper.querySelector('svg');
+                    });
+                });
+            });
+        </script>
+    </div>
+</th:block>
+</html>

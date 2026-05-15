@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(
+                    ~{::content},
+                    'Stores - GenVibe',
+                    'stores.css',
+                    'Stores',
+                    'stores'
+                    )}">
+
+<th:block th:fragment="content">
+
+    <p class="subtitle">Manage all stores under your company</p>
+
+    <!-- EMPTY STATE -->
+    <div th:if="${#lists.isEmpty(stores)}" class="empty-state-container">
+        <div class="empty-card">
+            <div class="card-icon">
+                <span th:replace="~{fragments/icons :: icon-store}"></span>
+            </div>
+
+            <div class="empty-icon">
+                <h3>No stores added yet</h3>
+                <p>Add your first store to start playing music</p>
+            </div>
+
+            <button class="btn-add-large" onclick="openModal()">
+                <span th:replace="~{fragments/icons :: icon-plus}"></span>
+                <span class="btn-title">Add new store</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- STORES GRID -->
+    <div th:if="${!#lists.isEmpty(stores)}">
+        <div class="stores-grid">
+
+        <div th:each="store : ${stores}" class="store-card" th:attr="data-id=${store.id}">
+
+            <div class="store-info">
+
+                <div class="store-title-row">
+                    <div class="store-status">
+                        <h3 th:text="${store.name}">Store name</h3>
+
+                        <span class="status-badge"
+                              th:classappend="${store.active ? 'active' : 'inactive'}"
+                              th:text="${store.active ? '⬤ Active' : '⬤ Inactive'}">
+                        </span>
+                    </div>
+
+                    <!-- ACTION BUTTON -->
+                    <button th:if="${store.active}"
+                            class="btn-link-store"
+                            th:attr="onclick=|openLink(${store.id}, '${store.name}', '${store.musicLink}')|">
+                        View store
+                    </button>
+
+                    <button th:unless="${store.active}"
+                            class="btn-link-store"
+                            th:attr="onclick=|activateStore(${store.id}, '${store.name}')|">
+                        Activate store
+                    </button>
+                </div>
+
+                <div class="store-details">
+                    <div class="location-title">
+                        <div class="icon-store">
+                        <span th:replace="~{fragments/icons :: icon-store}"></span></div>
+                        <span th:text="${store.location}">Location</span>
+                    </div>
+
+                    <div class="location-title">
+                        <span th:replace="~{fragments/icons :: icon-email}"></span>
+                        <span th:text="${store.email}">Email</span>
+                    </div>
+                </div>
+
+                <div class="access-title">
+                    <p th:if="${store.active}"
+                       th:text="|Last accessed: ${#temporals.format(store.lastAccessDate, 'dd MMM, yyyy', new java.util.Locale('en'))}|">
+                    </p>
+                    <p th:unless="${store.active}">
+                        Activate this store to generate a music access link
+                    </p>
+                </div>
+
+            </div>
+        </div>
+        </div>
+        <!-- ADD CARD BUTTON -->
+        <button class="btn-add-card" onclick="openModal()">
+            <span th:replace="~{fragments/icons :: icon-plus}"></span>
+            <span class="btn-title">Add new store</span>
+        </button>
+
+    </div>
+
+    <!-- MODAL (один на всё) -->
+    <div id="modalOverlay" class="modal-overlay" onclick="closeModal()"></div>
+
+    <div id="modal" class="modal add-store-modal">
+        <div class="modal-body">
+            <div class="modal-header">
+                <h2>Add store</h2>
+                <span class="close" onclick="closeModal()">
+                    <span class="icon" th:replace="~{fragments/icons :: icon-close}"></span>
+                </span>
+            </div>
+
+            <form th:action="@{/api/stores}" method="post">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Store name" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Location (optional)</label>
+                    <input type="text" name="location" placeholder="123 Main St., City">
+                </div>
+
+                <div class="form-group">
+                    <label>Store Play link will be sent to their email</label>
+                    <input type="email" name="email" placeholder="store@email.com" required>
+                </div>
+
+                <button type="submit" class="btn-save-store" id="saveStoreBtn" disabled>
+                    Save store
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- LINK MODAL -->
+    <div id="linkModalOverlay" class="modal-overlay" onclick="closeLinkModal()"></div>
+
+    <div id="linkModal" class="modal link-modal">
+        <div class="modal-body">
+
+            <div class="modal-header">
+                <h2>Store music link</h2>
+                <span class="close" onclick="closeLinkModal()">
+                    <span class="icon" th:replace="~{fragments/icons :: icon-close}"></span>
+                </span>
+            </div>
+
+            <div class="modal-content">
+                <p class="status-active">Store is active now</p>
+                <p class="store-name" id="storeName"></p>
+            </div>
+
+                <div class="link-row">
+                    <p class="label">Music access link</p>
+                    <div class="link-card">
+                        <div id="storeLink" class="link-box"></div>
+                        <button onclick="copyLink()" class="btn-copy">
+                            <span th:replace="~{fragments/icons :: icon-copy}"></span>
+                        </button>
+                    </div>
+                </div>
+
+            <div class="modal-actions">
+                <button onclick="regenerateLink()" class="btn-secondary">
+                    <span th:replace="~{fragments/icons :: icon-regenerate}"></span>
+                    <span class="btn-title">Regenerate link</span>
+                </button>
+                <button onclick="copyLink()" class="btn-primary">
+                    <span th:replace="~{fragments/icons :: icon-link}"></span>
+                    <span class="btn-title">Copy link</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast" class="toast">
+        <span class="icon" th:insert="~{fragments/icons :: icon-toast}"></span>
+        <span id="toastText">Link copied</span>
+    </div>
+    <script>
+        const form = document.querySelector('#modal form');
+        const btn = document.getElementById('saveStoreBtn');
+
+        const nameInput = form.querySelector('input[name="name"]');
+        const emailInput = form.querySelector('input[name="email"]');
+
+        function validateForm() {
+            const nameValid = nameInput.value.trim().length > 0;
+            const emailValid = emailInput.value.trim().length > 0;
+
+            if (nameValid && emailValid) {
+                btn.disabled = false;
+                btn.classList.add('enabled');
+            } else {
+                btn.disabled = true;
+                btn.classList.remove('enabled');
+            }
+        }
+
+        nameInput.addEventListener('input', validateForm);
+        emailInput.addEventListener('input', validateForm);
+    </script>
+    <script>
+        let currentStoreId = null;
+        let currentLink = "";
+
+        function openLink(id, name, link) {
+            currentStoreId = id;
+
+            document.getElementById("storeName").innerText = name;
+            document.getElementById("storeLink").innerText = link || "Loading...";
+
+            currentLink = link || "";
+
+            document.getElementById("linkModal").style.display = "block";
+            document.getElementById("linkModalOverlay").style.display = "block";
+        }
+
+        function closeLinkModal() {
+            document.getElementById("linkModal").style.display = "none";
+            document.getElementById("linkModalOverlay").style.display = "none";
+        }
+
+        function activateStore(id, name) {
+            currentStoreId = id;
+
+            const token = document.querySelector('meta[name="_csrf"]').content;
+            const header = document.querySelector('meta[name="_csrf_header"]').content;
+
+            openLink(id, name, "Loading...");
+            markStoreAsActive(id, name);
+
+            fetch(`/api/stores/activate/${id}`, {
+                method: "POST",
+                headers: {
+                    [header]: token
+                }
+            })
+                .then(() => {
+                    return fetch(`/api/stores/regenerate-link/${id}`, {
+                        method: "POST",
+                        headers: {
+                            [header]: token
+                        }
+                    });
+                })
+                .then(res => res.text())
+                .then(link => {
+
+                    currentLink = link;
+
+                    document.getElementById("storeLink").innerText = link;
+
+                    updateStoreLink(id, name, link);
+
+                    showToast("Store activated!");
+                })
+                .catch(() => {
+                    document.getElementById("storeLink").innerText = "Error";
+                    showToast("Activation failed");
+                });
+        }
+        function markStoreAsActive(id, name) {
+            const card = document.querySelector(`.store-card[data-id="${id}"]`);
+
+            if (!card) return;
+
+            const badge = card.querySelector(".status-badge");
+
+            badge.innerText = "⬤ Active";
+            badge.classList.remove("inactive");
+            badge.classList.add("active");
+        }
+        function updateStoreLink(id, name, link) {
+            const card = document.querySelector(`.store-card[data-id="${id}"]`);
+
+            if (!card) return;
+
+            const actions = card.querySelector(".store-title-row");
+
+            actions.querySelector(".btn-link-store").outerHTML = `
+        <button class="btn-link-store"
+            onclick="openLink(${id}, '${name}', '${link}')">
+            View store
+        </button>
+    `;
+        }
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            const text = document.getElementById("toastText");
+            text.innerText = message;
+
+            toast.classList.add("show");
+
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 2500);
+        }
+
+        function regenerateLink() {
+            if (!currentStoreId) return;
+
+            const token = document.querySelector('meta[name="_csrf"]').content;
+            const header = document.querySelector('meta[name="_csrf_header"]').content;
+
+            fetch(`/api/stores/regenerate-link/${currentStoreId}`, {
+                method: "POST",
+                headers: {
+                    [header]: token
+                }
+            })
+                .then(res => res.text())
+                .then(link => {
+
+                    currentLink = link;
+
+                    document.getElementById("storeLink").innerText = link;
+
+                    showToast("Link regenerated");
+                })
+                .catch(() => {
+                    showToast("Failed to regenerate link");
+                });
+        }
+
+        function updateStoreCard(id, name, link) {
+            const cards = document.querySelectorAll(".store-card");
+
+            cards.forEach(card => {
+                const button = card.querySelector(".btn-activate");
+
+                if (button && button.getAttribute("onclick")?.includes(`activateStore(${id}`)) {
+
+                    const badge = card.querySelector(".status-badge");
+                    badge.innerText = "Active";
+                    badge.classList.remove("inactive");
+                    badge.classList.add("active");
+
+                    const actions = card.querySelector(".store-actions");
+
+                    actions.innerHTML = `
+                    <button class="btn-view"
+                        onclick="openLink(${id}, '${name}', '${link}')">
+                        View store
+                    </button>
+                `;
+                }
+            });
+        }
+
+        function copyLink() {
+            if (!currentLink) {
+                showToast("Link not ready");
+                return;
+            }
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(currentLink)
+                    .then(() => showToast("Link copied"))
+                    .catch(() => fallbackCopy());
+            } else {
+                fallbackCopy();
+            }
+        }
+
+        function fallbackCopy() {
+            const textarea = document.createElement("textarea");
+            textarea.value = currentLink;
+
+            // чтобы не прыгал экран
+            textarea.style.position = "fixed";
+            textarea.style.opacity = "0";
+
+            document.body.appendChild(textarea);
+            textarea.focus();
+            textarea.select();
+
+            try {
+                document.execCommand("copy");
+                showToast("Link copied");
+            } catch (err) {
+                showToast("Copy failed");
+            }
+
+            document.body.removeChild(textarea);
+        }
+    </script>
+</th:block>
+</html>

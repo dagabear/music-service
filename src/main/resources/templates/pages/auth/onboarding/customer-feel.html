@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/onboarding :: layout(~{::content}, 'Customer Experience', 'customer-feel.css', null)}">
+
+<th:block th:fragment="content">
+    <div class="feel-container">
+<div class="title-content">
+        <h1>When customers are here, what should the space help them do?</h1>
+        <p>Pick what customers experience before music is added</p>
+</div>
+        <form th:action="@{/onboarding/step-4}" method="post" class="feel-grid">
+            <label th:each="purpose, iterStat : ${spacePurposes}"
+                   th:classappend="${iterStat.first} ? 'active' : ''"
+                   class="feel-card">
+
+                <input type="radio" name="mood"
+                       th:value="${purpose}"
+                       th:checked="${iterStat.first}">
+
+                <div class="card-header">
+                    <span class="card-title" th:text="${purpose.name}">Slow down and relax</span>
+
+                    <span th:if="${iterStat.first}" class="check-icon"></span><svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.16667 0C14.2292 0.000109951 18.3333 4.10412 18.3333 9.16667C18.3333 14.2292 14.2292 18.3332 9.16667 18.3333C4.10406 18.3333 0 14.2293 0 9.16667C0 4.10406 4.10406 0 9.16667 0ZM11.8538 5.9847C11.4873 5.7573 11.013 5.84878 10.7552 6.18327L10.7064 6.25326L7.77262 10.9806L6.80583 9.58333L6.75374 9.51579C6.47951 9.19474 6.00087 9.12714 5.64616 9.37256C5.29138 9.61816 5.18646 10.09 5.39063 10.4598L5.43538 10.5322L6.54704 12.1379C6.63438 12.2641 6.73137 12.4064 6.82454 12.5179C6.90678 12.6163 7.04278 12.7628 7.24691 12.8646L7.33805 12.9053C7.64977 13.0266 7.99713 13.0176 8.30241 12.8809L8.39193 12.8361C8.59057 12.7243 8.71918 12.5714 8.79639 12.4691C8.8839 12.3531 8.97341 12.2056 9.05436 12.0752L12.1224 7.13216L12.1639 7.05729C12.3491 6.67778 12.2204 6.21219 11.8538 5.9847Z" fill="white"/>
+                </svg>
+                </div>
+                <p class="card-desc" th:text="${purpose.description}">Description</p>
+            </label>
+            <div class="form-footer">
+                <hr>
+
+                <button class="btn-primary" type="submit">Continue</button>
+            </div>
+        </form>
+    </div>
+</th:block>
+</html>

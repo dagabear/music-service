@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(
+                    ~{::content},
+                    'Dashboard - GenVibe',
+                    'dashboard.css',
+                    'Company Dashboard',
+                    'dashboard'
+                    )}">
+
+<th:block th:fragment="content">
+    <p class="subtitle">Manage your AI music and control which stores are live.</p>
+
+    <div class="dashboard-grid">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-icon">
+                    <span th:replace="~{fragments/icons :: icon-music}"></span></div>
+                <span class="card-status active">Selected</span>
+            </div>
+            <div class="card-header">
+                <h3>Music Management</h3>
+                <p>Choose the music style for your brand</p>
+            </div>
+            <a th:href="@{/music}" class="btn-action">Select music type</a>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="card-icon">
+                    <span th:replace="~{fragments/icons :: icon-store}"></span></div>
+                <span class="card-status"
+                      th:classappend="${#lists.size(stores) > 0} ? 'active' : ''"
+                      th:text="${#lists.size(stores)} + ' stores'">
+                </span>
+            </div>
+            <div class="card-header">
+                <h3>Stores</h3>
+                <p>Add and manage your store locations</p>
+            </div>
+            <a th:href="@{/stores}" class="btn-action">Add store</a>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="card-icon">
+                    <span th:replace="~{fragments/icons :: icon-jingle}"></span></div>
+<!--                <span class="card-status" th:text="${#lists.size(jingles)} + ' jingles'">0 generate</span>-->
+            </div>
+            <div class="card-header">
+                <h3>AI Voice Studio</h3>
+                <p>Add and manage audio messaging</p>
+            </div>
+            <a th:href="@{/jingles}" class="btn-action" th:disabled="${musicType == null}">Add audio messaging</a>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/toast :: toast}"></div>
+</th:block>
+</html>

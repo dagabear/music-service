@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(
+                    ~{::content},
+                    'Music - GenVibe',
+                    'music.css',
+                    'Select music type',
+                    'music'
+                    )}">
+
+<th:block th:fragment="content">
+    <div th:if="${activePage == 'music'}" class="music-type-list">
+        <div class="music-wrapper" id="musicForm">
+            <div class="atmosphere-cards">
+                <div class="music-subtitle">
+                    <h3>Atmosphere</h3>
+                    <p>Select the AI-generated atmosphere for all your stores. You can update this anytime.</p>
+                </div>
+                <div class="chips">
+                    <label th:each="type : ${musicAtmospheres}" class="chip">
+                        <input type="radio" name="atmosphere" th:value="${type}">
+                        <span th:text="${type.name}">Music Type</span>
+                    </label>
+                </div>
+            </div>
+            <div class="atmosphere-cards">
+                <div class="music-subtitle">
+                    <h3>Mood</h3>
+                    <p>Select the AI-generated mood for all your stores. You can update this anytime.</p>
+                </div>
+                <div class="chips">
+                    <label th:each="type : ${musicMoods}" class="chip">
+                        <input type="radio" name="mood" th:value="${type}">
+                        <span th:text="${type.name}">Music Type</span>
+                    </label>
+                </div>
+                <div class="selected-info">
+                    <p>Selected</p>
+                    <span id="selectedInfo" th:text="${organization.musicAtmosphere.name + ' / ' + organization.musicMood.name}"></span>
+                </div>
+            </div>
+
+            <div class="music-container">
+                <h3>2-minute preview</h3>
+                <div th:each="music : ${musics}" class="music-card">
+                    <button class="play-btn"
+                            th:data-src="${music.fileUrl}"
+                            onclick="toggleAudio(this)">
+                        <span class="icon" th:replace="~{fragments/icons :: icon-start}"></span>
+                        <span class="icon" th:replace="~{fragments/icons :: icon-pause}"></span>
+                    </button>
+                    <div class="music-info">
+                        <h3 th:text="${music.atmosphere.name}">Style Name</h3>
+                        <p th:text="${music.mood.name}">Style description text goes here.</p>
+                    </div>
+                    <div class="selected-badge">✓ Selected</div>
+                    <div class="waveform-placeholder">
+                        <canvas class="waveCanvas"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-footer">
+                <p class="footer-note">This style will be used as the default for all active stores</p>
+                <div class="footer-buttons">
+                    <a th:href="@{/dashboard}" class="btn-cancel">Cancel</a>
+                    <button type="submit" class="btn-save" id="saveButton" disabled>Select and save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <audio id="globalAudioPlayer" style="display: none;"></audio>
+    <script>
+        const form = document.getElementById('musicForm');
+        const saveButton = document.getElementById('saveButton');
+
+        form.addEventListener('change', () => {
+            const atmosphere = form.querySelector('input[name="atmosphere"]:checked');
+            const mood = form.querySelector('input[name="mood"]:checked');
+            saveButton.disabled = !(atmosphere && mood);
+        });
+    </script>
+    <script>
+        function updateSelected() {
+            const atmosphere = document.querySelector('input[name="atmosphere"]:checked');
+            const mood = document.querySelector('input[name="mood"]:checked');
+
+            const atmosphereName = atmosphere ? atmosphere.closest('.chip').querySelector('span').textContent : '—';
+            const moodName = mood ? mood.closest('.chip').querySelector('span').textContent : '—';
+
+            document.getElementById('selectedInfo').textContent = atmosphereName + ' / ' + moodName;
+            filterMusic();
+        }
+
+        function filterMusic() {
+            const atmosphere = document.querySelector('input[name="atmosphere"]:checked');
+            const mood = document.querySelector('input[name="mood"]:checked');
+
+            document.querySelectorAll('.music-card').forEach(card => {
+                const cardAtmosphere = card.querySelector('.music-info h3').textContent.trim();
+                const cardMood = card.querySelector('.music-info p').textContent.trim();
+0
+                const atmosphereLabel = atmosphere ? atmosphere.closest('.chip').querySelector('span').textContent.trim() : null;
+                const moodLabel = mood ? mood.closest('.chip').querySelector('span').textContent.trim() : null;
+
+                const matchAtmosphere = !atmosphereLabel || cardAtmosphere === atmosphereLabel;
+                const matchMood = !moodLabel || cardMood === moodLabel;
+
+                card.style.display = matchAtmosphere && matchMood ? 'flex' : 'none';
+
+                card.onclick = (e) => {
+                    if (e.target.closest('.play-btn')) return;
+
+                    document.querySelectorAll('.music-card').forEach(c => {
+                        c.classList.remove('selected');
+                    });
+
+                    card.classList.add('selected');
+                    document.getElementById('saveButton').disabled = false;
+                };
+            });
+        }
+
+        document.querySelectorAll('input[name="atmosphere"], input[name="mood"]').forEach(input => {
+            input.addEventListener('change', updateSelected);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.chip input[type="radio"]').forEach(input => {
+                input.addEventListener('change', function() {
+                    document.querySelectorAll(`.chip input[name="${this.name}"]`).forEach(i => {
+                        i.closest('.chip').classList.remove('active');
+                    });
+                    this.closest('.chip').classList.add('active');
+                    updateSelected();
+                });
+            });
+
+            document.getElementById('saveButton').addEventListener('click', () => {
+                const atmosphere = document.querySelector('input[name="atmosphere"]:checked')?.value;
+                const mood = document.querySelector('input[name="mood"]:checked')?.value;
+
+                if (!atmosphere || !mood) return;
+
+                const csrfToken = document.querySelector('meta[name="_csrf"]')?.content;
+                const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.content;
+
+                const params = new URLSearchParams({ atmosphere, mood });
+
+                fetch('/api/music', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        [csrfHeader]: csrfToken
+                    },
+                    body: params
+                })
+                    .then(res => {
+                        if (res.ok || res.redirected) window.location.href = '/dashboard';
+                    })
+                    .catch(err => console.error('Save error:', err));
+            });
+        });
+    </script>
+    <script>
+        const BAR_COUNT = 55;
+        const BAR_GAP = 2;
+        const audio = document.getElementById("globalAudioPlayer");
+
+        let animFrameId = null;
+        let currentButton = null;
+        let currentCanvas = null;
+        let currentCtx = null;
+
+        function renderBars(ctx, w, h, bars, active, progress = 0) {
+            ctx.clearRect(0, 0, w, h);
+            const barWidth = (w - (BAR_COUNT - 1) * BAR_GAP) / BAR_COUNT;
+            const centerY = h / 2;
+            bars.forEach((val, i) => {
+                const barH = Math.max(3, val * h * 0.95);
+                const x = i * (barWidth + BAR_GAP);
+                ctx.fillStyle = active && (i / BAR_COUNT) <= progress ? "#1a1a1a" : "#c0c0c0";
+                ctx.beginPath();
+                ctx.roundRect(x, centerY - barH / 2, barWidth, barH, barWidth / 2);
+                ctx.fill();
+            });
+        }
+
+        function drawStaticWaveform(canvas) {
+            canvas.width = canvas.getBoundingClientRect().width || 200;
+            canvas.height = 34;
+            const bars = Array.from({ length: BAR_COUNT }, () => Math.random() * 0.8 + 0.1);
+            canvas._staticBars = bars;
+            renderBars(canvas.getContext("2d"), canvas.width, canvas.height, bars, false);
+        }
+
+        function drawAnimated() {
+            if (!currentCanvas) return;
+            animFrameId = requestAnimationFrame(drawAnimated);
+            const progress = audio.duration ? audio.currentTime / audio.duration : 0;
+            renderBars(currentCtx, currentCanvas.width, currentCanvas.height, currentCanvas._staticBars || [], true, progress);
+        }
+
+        window.toggleAudio = function(btn) {
+            const src = btn.getAttribute("data-src");
+            const canvas = btn.closest(".music-card").querySelector(".waveCanvas");
+
+            if (currentButton === btn) {
+                if (audio.paused) {
+                    audio.play();
+                    updateBtn(btn, true);
+                    drawAnimated();
+                } else {
+                    audio.pause();
+                    updateBtn(btn, false);
+                    cancelAnimationFrame(animFrameId);
+                }
+                return;
+            }
+
+            if (currentButton) {
+                audio.pause();
+                updateBtn(currentButton, false);
+                cancelAnimationFrame(animFrameId);
+                const prevCanvas = currentButton.closest(".music-card").querySelector(".waveCanvas");
+                if (prevCanvas) renderBars(prevCanvas.getContext("2d"), prevCanvas.width, prevCanvas.height, prevCanvas._staticBars || [], false);
+            }
+
+            currentButton = btn;
+            currentCanvas = canvas;
+            currentCanvas.width = canvas.getBoundingClientRect().width || 200;
+            currentCanvas.height = 34;
+            currentCtx = canvas.getContext("2d");
+
+            audio.src = src;
+            audio.play();
+            updateBtn(btn, true);
+            drawAnimated();
+        };
+
+        function updateBtn(btn, playing) {
+            btn.classList.toggle("playing", playing);
+            const svgs = btn.querySelectorAll("svg");
+            if (svgs.length >= 2) {
+                svgs[0].style.display = playing ? "none" : "inline";
+                svgs[1].style.display = playing ? "inline" : "none";
+            }
+        }
+
+        audio.addEventListener("ended", () => {
+            if (currentButton) updateBtn(currentButton, false);
+            cancelAnimationFrame(animFrameId);
+            if (currentCtx && currentCanvas) {
+                renderBars(currentCtx, currentCanvas.width, currentCanvas.height, currentCanvas._staticBars || [], false);
+            }
+            currentButton = null;
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const svgs2 = document.querySelectorAll('.play-btn svg:nth-child(2)');
+            svgs2.forEach(s => s.style.display = 'none');
+
+            document.querySelectorAll(".music-card").forEach(item => {
+                const canvas = item.querySelector(".waveCanvas");
+                if (canvas) drawStaticWaveform(canvas);
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.chip input[type="radio"]').forEach(input => {
+                input.addEventListener('change', function() {
+                    document.querySelectorAll(`.chip input[name="${this.name}"]`).forEach(i => {
+                        i.closest('.chip').classList.remove('active');
+                    });
+                    this.closest('.chip').classList.add('active');
+                    updateSelected();
+                });
+            });
+
+            document.querySelectorAll('.play-btn').forEach(btn => {
+                const svgs = btn.querySelectorAll('svg');
+                if (svgs.length >= 2) svgs[1].style.display = 'none';
+            });
+
+            setTimeout(() => {
+                document.querySelectorAll(".music-card").forEach(item => {
+                    const btn = item.querySelector(".play-btn");
+                    const canvas = item.querySelector(".waveCanvas");
+                    if (!btn || !canvas) return;
+                    const src = btn.getAttribute("data-src");
+                    if (src) drawStaticWaveform(canvas, src);
+                });
+            }, 100);
+        });
+    </script>
+</th:block>
+</html>

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(
+                    ~{::content},
+                    'Dashboard - GenVibe',
+                    'store-dashboard.css',
+                    'Hello, team ' + ${organization.companyName},
+                    'dashboard'
+                    )}">
+
+<th:block th:fragment="content">
+
+    <!-- ORB - Центральный элемент управления -->
+    <div class="orb-container">
+        <div class="orb">
+            <img th:src="@{/assets/icons/play-animated.gif}" alt="orb" />
+
+            <div class="orb-play" id="playPauseBtn">
+
+                <!-- PLAY ICON -->
+                <svg id="icon-play" width="100" height="100" fill="none" xmlns="http://www.w3.org/2000/svg" >
+                    <g filter="url(#filter0_ddd_953_2062)">
+                        <mask id="mask0_953_2062" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="25" y="12" width="65" height="65">
+                            <rect x="25.9996" y="13.2" width="63.2" height="63.2" rx="31.6" fill="#D9D9D9" stroke="url(#paint0_linear_953_2062)" stroke-width="0.8"/>
+                        </mask>
+                        <g mask="url(#mask0_953_2062)">
+                            <foreignObject x="-26.4004" y="-39.2001" width="168" height="168"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(0.8px);clip-path:url(#bgblur_0_953_2062_clip_path);height:100%;width:100%"></div></foreignObject><g filter="url(#filter1_g_953_2062)" data-figma-bg-blur-radius="1.6">
+                            <rect x="-6.40039" y="-19.2001" width="128" height="128" rx="64" fill="white" fill-opacity="0.01"/>
+                        </g>
+                            <rect x="25.9996" y="13.2" width="63.2" height="63.2" rx="31.6" fill="white" fill-opacity="0.01" stroke="url(#paint1_linear_953_2062)" stroke-width="0.8"/>
+                        </g>
+                        <path d="M51.8888 34.2697C52.5308 34.2024 53.1515 34.4054 53.7706 34.6909C54.3941 34.9785 55.1544 35.4193 56.0954 35.9626L63.4239 40.1929L64.6975 40.9376C65.0755 41.1646 65.407 41.3733 65.6874 41.5714C66.2441 41.9648 66.7301 42.4007 66.9927 42.9904L67.0599 43.1536C67.3759 43.9782 67.3538 44.8977 66.9927 45.7088L66.8839 45.9234C66.6074 46.4071 66.1745 46.7837 65.6874 47.1279C65.1266 47.5241 64.3651 47.9629 63.4239 48.5063L56.0954 52.7367C55.1542 53.2801 54.3941 53.7208 53.7706 54.0084C53.2288 54.2583 52.6855 54.4449 52.1281 54.4425L51.8888 54.4286C51.006 54.3358 50.1982 53.8961 49.6421 53.2104L49.5343 53.0699C49.1548 52.5475 49.0201 51.9086 48.9578 51.2297C48.8951 50.5459 48.8965 49.6672 48.8965 48.5805V40.1188C48.8965 39.0321 48.8951 38.1534 48.9578 37.4696C49.0123 36.8753 49.1219 36.3116 49.4028 35.8301L49.5343 35.6293C50.0561 34.9111 50.8407 34.4321 51.7128 34.2934L51.8888 34.2697Z" fill="black"/>
+                    </g>
+                    <defs>
+                        <filter id="filter0_ddd_953_2062" x="-0.000391006" y="-1.23978e-05" width="115.202" height="115.2" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                            <feOffset dy="12.8"/>
+                            <feGaussianBlur stdDeviation="12.8"/>
+                            <feComposite in2="hardAlpha" operator="out"/>
+                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0"/>
+                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_953_2062"/>
+                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                            <feOffset dy="3.2"/>
+                            <feGaussianBlur stdDeviation="3.2"/>
+                            <feComposite in2="hardAlpha" operator="out"/>
+                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0"/>
+                            <feBlend mode="normal" in2="effect1_dropShadow_953_2062" result="effect2_dropShadow_953_2062"/>
+                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                            <feOffset dy="0.8"/>
+                            <feGaussianBlur stdDeviation="1.6"/>
+                            <feComposite in2="hardAlpha" operator="out"/>
+                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0"/>
+                            <feBlend mode="normal" in2="effect2_dropShadow_953_2062" result="effect3_dropShadow_953_2062"/>
+                            <feBlend mode="normal" in="SourceGraphic" in2="effect3_dropShadow_953_2062" result="shape"/>
+                        </filter>
+                        <filter id="filter1_g_953_2062" x="-26.4004" y="-39.2001" width="168" height="168" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                            <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                            <feTurbulence type="fractalNoise" baseFrequency="0.01249999925494194 0.01249999925494194" numOctaves="3" seed="3000" />
+                            <feDisplacementMap in="shape" scale="40.000003814697266" xChannelSelector="R" yChannelSelector="G" result="displacedImage" width="100%" height="100%" />
+                            <feMerge result="effect1_texture_953_2062">
+                                <feMergeNode in="displacedImage"/>
+                            </feMerge>
+                        </filter>
+                        <clipPath id="bgblur_0_953_2062_clip_path" transform="translate(26.4004 39.2001)"><rect x="-6.40039" y="-19.2001" width="128" height="128" rx="64"/>
+                        </clipPath><linearGradient id="paint0_linear_953_2062" x1="57.5996" y1="12.8" x2="57.5996" y2="76.8" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="white"/>
+                        <stop offset="0.36" stop-color="#808080"/>
+                        <stop offset="1" stop-color="white"/>
+                    </linearGradient>
+                        <linearGradient id="paint1_linear_953_2062" x1="57.5996" y1="12.8" x2="57.5996" y2="76.8" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="white"/>
+                            <stop offset="0.36" stop-color="#808080"/>
+                            <stop offset="1" stop-color="white"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <!-- PAUSE ICON -->
+                <svg id="icon-pause" width="100" height="100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g filter="url(#filter0_ddd_953_2059)">
+                        <mask id="mask0_953_2059" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="25" y="12" width="65" height="65">
+                            <rect x="26.0001" y="13.1998" width="63.2" height="63.2" rx="31.6" fill="#D9D9D9" stroke="url(#paint0_linear_953_2059)" stroke-width="0.8"/>
+                        </mask>
+                        <g mask="url(#mask0_953_2059)">
+                            <foreignObject x="-26.4004" y="-39.2007" width="168" height="168"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(0.8px);clip-path:url(#bgblur_0_953_2059_clip_path);height:100%;width:100%"></div></foreignObject><g filter="url(#filter1_g_953_2059)" data-figma-bg-blur-radius="1.6">
+                            <rect x="-6.40039" y="-19.2007" width="128" height="128" rx="64" fill="white" fill-opacity="0.01"/>
+                        </g>
+                            <rect x="26.0001" y="13.1998" width="63.2" height="63.2" rx="31.6" fill="white" fill-opacity="0.01" stroke="url(#paint1_linear_953_2059)" stroke-width="0.8"/>
+                        </g>
+                        <path d="M52.9721 35.7852C54.3142 35.7852 55.4027 36.8736 55.4027 38.2158V50.5449C55.4027 51.8871 54.3142 52.9755 52.9721 52.9756H50.9746C49.6324 52.9756 48.5439 51.8871 48.5439 50.5449V38.2158C48.5439 36.8736 49.6324 35.7852 50.9746 35.7852H52.9721Z" fill="black"/>
+                        <path d="M63.3304 35.7852C64.6726 35.7852 65.7611 36.8736 65.7611 38.2158V50.5449C65.7611 51.8871 64.6726 52.9756 63.3304 52.9756H61.3329C59.9908 52.9755 58.9033 51.8871 58.9033 50.5449V38.2158C58.9033 36.8736 59.9908 35.7852 61.3329 35.7852H63.3304Z" fill="black"/>
+                    </g>
+                    <defs>
+                        <filter id="filter0_ddd_953_2059" x="9.72748e-05" y="-0.000195503" width="115.202" height="115.2" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                            <feOffset dy="12.8"/>
+                            <feGaussianBlur stdDeviation="12.8"/>
+                            <feComposite in2="hardAlpha" operator="out"/>
+                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0"/>
+                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_953_2059"/>
+                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                            <feOffset dy="3.2"/>
+                            <feGaussianBlur stdDeviation="3.2"/>
+                            <feComposite in2="hardAlpha" operator="out"/>
+                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0"/>
+                            <feBlend mode="normal" in2="effect1_dropShadow_953_2059" result="effect2_dropShadow_953_2059"/>
+                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                            <feOffset dy="0.8"/>
+                            <feGaussianBlur stdDeviation="1.6"/>
+                            <feComposite in2="hardAlpha" operator="out"/>
+                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0"/>
+                            <feBlend mode="normal" in2="effect2_dropShadow_953_2059" result="effect3_dropShadow_953_2059"/>
+                            <feBlend mode="normal" in="SourceGraphic" in2="effect3_dropShadow_953_2059" result="shape"/>
+                        </filter>
+                        <filter id="filter1_g_953_2059" x="-26.4004" y="-39.2007" width="168" height="168" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                            <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                            <feTurbulence type="fractalNoise" baseFrequency="0.01249999925494194 0.01249999925494194" numOctaves="3" seed="3000" />
+                            <feDisplacementMap in="shape" scale="40.000003814697266" xChannelSelector="R" yChannelSelector="G" result="displacedImage" width="100%" height="100%" />
+                            <feMerge result="effect1_texture_953_2059">
+                                <feMergeNode in="displacedImage"/>
+                            </feMerge>
+                        </filter>
+                        <clipPath id="bgblur_0_953_2059_clip_path" transform="translate(26.4004 39.2007)"><rect x="-6.40039" y="-19.2007" width="128" height="128" rx="64"/>
+                        </clipPath><linearGradient id="paint0_linear_953_2059" x1="57.6001" y1="12.7998" x2="57.6001" y2="76.7998" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="white"/>
+                        <stop offset="0.36" stop-color="#808080"/>
+                        <stop offset="1" stop-color="white"/>
+                    </linearGradient>
+                        <linearGradient id="paint1_linear_953_2059" x1="57.6001" y1="12.7998" x2="57.6001" y2="76.7998" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="white"/>
+                            <stop offset="0.36" stop-color="#808080"/>
+                            <stop offset="1" stop-color="white"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <!-- ACTIVE JINGLES - Список активных джинглов -->
+    <div class="active-jingles-card">
+        <h2>Active Jingles</h2>
+
+        <div th:each="jingle : ${activeJingles}" class="jingle-row">
+            <div class="jingle-info">
+                <h4 th:text="${#strings.abbreviate(jingle.announcementText, 55)}">Welcome to our store!</h4>
+                <div class="jingle-meta">
+                    <span th:text="${jingle.voice.name}">Rachel</span>
+                    <span>·</span>
+                    <span>0:15</span>
+                    <span>·</span>
+                    <span>Start date <th:block th:text="${#temporals.format(jingle.startDate, 'dd.MM.yyyy')}">06.04.2026</th:block>/End date <th:block th:text="${#temporals.format(jingle.endDate, 'dd.MM.yyyy')}">07.04.2026</th:block></span>
+                </div>
+                <div class="jingle-repeating">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    <span>Repeating: <th:block th:text="${jingle.repeatingTime.name}">16:00</th:block></span>
+                </div>
+            </div>
+            <button class="btn-pause"
+                    th:data-id="${jingle.id}"
+                    th:disabled="${jingle.requestedToPause}"
+                    th:classappend="${jingle.requestedToPause} ? 'btn-disabled' : ''"
+                    onclick="handlePauseRequest(this)">
+
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="6" y="4" width="4" height="16"/>
+                    <rect x="14" y="4" width="4" height="16"/>
+                </svg>
+
+                <span th:text="${jingle.requestedToPause} ? 'Requested' : 'Request to Pause'">
+                    Request to Pause
+                </span>
+            </button>
+        </div>
+
+        <div th:if="${#lists.isEmpty(activeJingles)}" style="text-align:center; padding: 32px; color: #888; font-size: 14px;">
+            No active jingles yet.
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/toast :: toast}"></div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+    <script th:inline="javascript">
+        // Данные из контекста Spring
+        const orgId = [[${organization.id}]];
+        const storeId = [[${store.id}]];
+
+        // Состояние плеера
+        let stompClient = null;
+        let mainAudio = new Audio();
+        let playlist = [];
+        let currentTrackIndex = 0;
+        let isPlaying = false;
+        let isJinglePlaying = false;
+
+        // Аналитика
+        let heartbeatInterval = null;
+
+        const orbBtn = document.querySelector('.orb-play');
+        const orbIcon = document.querySelector('.orb img');
+
+        mainAudio.crossOrigin = "anonymous";
+        mainAudio.volume = 1.0;
+
+        // 1. ПОДКЛЮЧЕНИЕ WEBSOCKET
+        document.addEventListener('DOMContentLoaded', () => {
+            connect();
+        });
+
+        function connect() {
+            const socket = new SockJS('/ws-player');
+            stompClient = Stomp.over(socket);
+            stompClient.debug = null;
+
+            stompClient.connect({}, function (frame) {
+                console.log('STOMP Connected: ' + frame);
+
+                stompClient.subscribe('/topic/store.' + storeId + '.init', function (message) {
+                    const data = JSON.parse(message.body);
+                    playlist = data.playlistUrls || [];
+                    if (playlist.length > 0 && isPlaying && (mainAudio.paused || !mainAudio.src)) {
+                        playTrack(0);
+                    }
+                });
+
+                stompClient.subscribe('/topic/store.' + storeId + '.commands', function (message) {
+                    const command = JSON.parse(message.body);
+                    handleCommand(command);
+                });
+
+                stompClient.send("/app/sync." + storeId, {}, {});
+            }, function (error) {
+                console.error('STOMP error:', error);
+                setTimeout(connect, 5000);
+            });
+        }
+
+        // 2. ЛОГИКА АНАЛИТИКИ (БЭКЕНД)
+        function startAnalytics() {
+            if (heartbeatInterval) clearInterval(heartbeatInterval);
+            // Каждую минуту отправляем сигнал серверу для инкремента playMinutes
+            heartbeatInterval = setInterval(() => {
+                if (isPlaying && stompClient && stompClient.connected) {
+                    stompClient.send("/app/track.ping." + storeId, {}, {});
+                }
+            }, 60000);
+        }
+
+        function stopAnalytics() {
+            if (heartbeatInterval) {
+                clearInterval(heartbeatInterval);
+                heartbeatInterval = null;
+            }
+        }
+
+        // 3. ВОСПРОИЗВЕДЕНИЕ
+        function playTrack(index) {
+            if (playlist.length === 0) return;
+            currentTrackIndex = index % playlist.length;
+            mainAudio.src = playlist[currentTrackIndex];
+            mainAudio.play().catch(err => console.warn("Playback blocked."));
+        }
+
+        mainAudio.onended = () => {
+            if (!isJinglePlaying) playTrack(currentTrackIndex + 1);
+        };
+
+        function handleCommand(command) {
+            if (command.type === 'PLAY_JINGLE' && isPlaying) {
+                playJingle(command.jingleUrl);
+            } else if (command.type === 'FORCE_DISCONNECT') {
+                stopPlaybackUI();
+                alert("Disconnected: logged in from another device.");
+            }
+        }
+
+        function playJingle(url) {
+            if (isJinglePlaying) return;
+            isJinglePlaying = true;
+            const jingleAudio = new Audio(url);
+            jingleAudio.crossOrigin = "anonymous";
+
+            fadeAudio(mainAudio, 0.1, 400);
+            setTimeout(() => {
+                jingleAudio.play().catch(() => {
+                    isJinglePlaying = false;
+                    fadeAudio(mainAudio, 1.0, 400);
+                });
+            }, 250);
+
+            jingleAudio.onended = () => {
+                fadeAudio(mainAudio, 1.0, 800);
+                isJinglePlaying = false;
+                if (mainAudio.ended) playTrack(currentTrackIndex + 1);
+            };
+        }
+
+        function fadeAudio(audio, targetVolume, duration) {
+            const startVolume = audio.volume;
+            const diff = targetVolume - startVolume;
+            const steps = 20;
+            const stepTime = duration / steps;
+            let currentStep = 0;
+            const interval = setInterval(() => {
+                currentStep++;
+                audio.volume = Math.min(Math.max(startVolume + (diff * (currentStep / steps)), 0), 1);
+                if (currentStep >= steps) clearInterval(interval);
+            }, stepTime);
+        }
+
+        function stopPlaybackUI() {
+            mainAudio.pause();
+            mainAudio.src = "";
+            isPlaying = false;
+            stopAnalytics();
+            orbBtn.classList.remove('is-playing'); // ← возвращает play иконку
+        }
+
+        orbBtn.addEventListener('click', () => {
+            if (!isPlaying) {
+                isPlaying = true;
+                orbBtn.classList.add('is-playing'); // ← показывает pause иконку
+                startAnalytics();
+
+                if (playlist.length > 0) {
+                    playTrack(currentTrackIndex);
+                } else if (stompClient && stompClient.connected) {
+                    stompClient.send("/app/sync." + storeId, {}, {});
+                }
+            } else {
+                stopPlaybackUI();
+            }
+        });
+
+        // Запросы на паузу (API)
+        function handlePauseRequest(button) {
+            const jingleId = button.getAttribute('data-id');
+            const textSpan = button.querySelector('span');
+            button.disabled = true;
+            button.style.opacity = '0.5';
+
+            fetch(`/api/jingles/pause-request/${jingleId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').content
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        showToast("Pause request sent", "success");
+                        if (textSpan) textSpan.innerText = "Requested";
+                    } else {
+                        button.disabled = false;
+                        button.style.opacity = '1';
+                    }
+                })
+                .catch(() => {
+                    button.disabled = false;
+                    button.style.opacity = '1';
+                });
+        }
+    </script>
+</th:block>
+</html>

@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(
+                    ~{::content},
+                    'Dashboard - GenVibe',
+                    'dashboard.css',
+                    'Hello, team ' + ${organization.companyName},
+                    'enhanced-dashboard'
+                    )}">
+
+<th:block th:fragment="content">
+<div class="content-card">
+    <div class="orb-container">
+        <div class="orb">
+            <img th:src="@{/assets/icons/play-animated.gif}" alt="orb" />
+            <div class="orb-play" id="playPauseBtn">
+                <!-- Play icon (default) -->
+                <svg id="icon-play" width="100" height="100" fill="none" xmlns="http://www.w3.org/2000/svg" >
+                    <g filter="url(#filter0_ddd_953_2062)">
+                        <mask id="mask0_953_2062" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="25" y="12" width="65" height="65">
+                            <rect x="25.9996" y="13.2" width="63.2" height="63.2" rx="31.6" fill="#D9D9D9" stroke="url(#paint0_linear_953_2062)" stroke-width="0.8"/>
+                        </mask>
+                        <g mask="url(#mask0_953_2062)">
+                            <foreignObject x="-26.4004" y="-39.2001" width="168" height="168"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(0.8px);clip-path:url(#bgblur_0_953_2062_clip_path);height:100%;width:100%"></div></foreignObject><g filter="url(#filter1_g_953_2062)" data-figma-bg-blur-radius="1.6">
+                            <rect x="-6.40039" y="-19.2001" width="128" height="128" rx="64" fill="white" fill-opacity="0.01"/>
+                        </g>
+                            <rect x="25.9996" y="13.2" width="63.2" height="63.2" rx="31.6" fill="white" fill-opacity="0.01" stroke="url(#paint1_linear_953_2062)" stroke-width="0.8"/>
+                        </g>
+                        <path d="M51.8888 34.2697C52.5308 34.2024 53.1515 34.4054 53.7706 34.6909C54.3941 34.9785 55.1544 35.4193 56.0954 35.9626L63.4239 40.1929L64.6975 40.9376C65.0755 41.1646 65.407 41.3733 65.6874 41.5714C66.2441 41.9648 66.7301 42.4007 66.9927 42.9904L67.0599 43.1536C67.3759 43.9782 67.3538 44.8977 66.9927 45.7088L66.8839 45.9234C66.6074 46.4071 66.1745 46.7837 65.6874 47.1279C65.1266 47.5241 64.3651 47.9629 63.4239 48.5063L56.0954 52.7367C55.1542 53.2801 54.3941 53.7208 53.7706 54.0084C53.2288 54.2583 52.6855 54.4449 52.1281 54.4425L51.8888 54.4286C51.006 54.3358 50.1982 53.8961 49.6421 53.2104L49.5343 53.0699C49.1548 52.5475 49.0201 51.9086 48.9578 51.2297C48.8951 50.5459 48.8965 49.6672 48.8965 48.5805V40.1188C48.8965 39.0321 48.8951 38.1534 48.9578 37.4696C49.0123 36.8753 49.1219 36.3116 49.4028 35.8301L49.5343 35.6293C50.0561 34.9111 50.8407 34.4321 51.7128 34.2934L51.8888 34.2697Z" fill="black"/>
+                    </g>
+                    <defs>
+                        <filter id="filter0_ddd_953_2062" x="-0.000391006" y="-1.23978e-05" width="115.202" height="115.2" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                            <feOffset dy="12.8"/>
+                            <feGaussianBlur stdDeviation="12.8"/>
+                            <feComposite in2="hardAlpha" operator="out"/>
+                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0"/>
+                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_953_2062"/>
+                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                            <feOffset dy="3.2"/>
+                            <feGaussianBlur stdDeviation="3.2"/>
+                            <feComposite in2="hardAlpha" operator="out"/>
+                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0"/>
+                            <feBlend mode="normal" in2="effect1_dropShadow_953_2062" result="effect2_dropShadow_953_2062"/>
+                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                            <feOffset dy="0.8"/>
+                            <feGaussianBlur stdDeviation="1.6"/>
+                            <feComposite in2="hardAlpha" operator="out"/>
+                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0"/>
+                            <feBlend mode="normal" in2="effect2_dropShadow_953_2062" result="effect3_dropShadow_953_2062"/>
+                            <feBlend mode="normal" in="SourceGraphic" in2="effect3_dropShadow_953_2062" result="shape"/>
+                        </filter>
+                        <filter id="filter1_g_953_2062" x="-26.4004" y="-39.2001" width="168" height="168" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                            <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                            <feTurbulence type="fractalNoise" baseFrequency="0.01249999925494194 0.01249999925494194" numOctaves="3" seed="3000" />
+                            <feDisplacementMap in="shape" scale="40.000003814697266" xChannelSelector="R" yChannelSelector="G" result="displacedImage" width="100%" height="100%" />
+                            <feMerge result="effect1_texture_953_2062">
+                                <feMergeNode in="displacedImage"/>
+                            </feMerge>
+                        </filter>
+                        <clipPath id="bgblur_0_953_2062_clip_path" transform="translate(26.4004 39.2001)"><rect x="-6.40039" y="-19.2001" width="128" height="128" rx="64"/>
+                        </clipPath><linearGradient id="paint0_linear_953_2062" x1="57.5996" y1="12.8" x2="57.5996" y2="76.8" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="white"/>
+                        <stop offset="0.36" stop-color="#808080"/>
+                        <stop offset="1" stop-color="white"/>
+                    </linearGradient>
+                        <linearGradient id="paint1_linear_953_2062" x1="57.5996" y1="12.8" x2="57.5996" y2="76.8" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="white"/>
+                            <stop offset="0.36" stop-color="#808080"/>
+                            <stop offset="1" stop-color="white"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <!-- Pause icon (hidden by default) -->
+                <svg id="icon-pause" width="100" height="100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g filter="url(#filter0_ddd_953_2059)">
+                        <mask id="mask0_953_2059" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="25" y="12" width="65" height="65">
+                            <rect x="26.0001" y="13.1998" width="63.2" height="63.2" rx="31.6" fill="#D9D9D9" stroke="url(#paint0_linear_953_2059)" stroke-width="0.8"/>
+                        </mask>
+                        <g mask="url(#mask0_953_2059)">
+                            <foreignObject x="-26.4004" y="-39.2007" width="168" height="168"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(0.8px);clip-path:url(#bgblur_0_953_2059_clip_path);height:100%;width:100%"></div></foreignObject><g filter="url(#filter1_g_953_2059)" data-figma-bg-blur-radius="1.6">
+                            <rect x="-6.40039" y="-19.2007" width="128" height="128" rx="64" fill="white" fill-opacity="0.01"/>
+                        </g>
+                            <rect x="26.0001" y="13.1998" width="63.2" height="63.2" rx="31.6" fill="white" fill-opacity="0.01" stroke="url(#paint1_linear_953_2059)" stroke-width="0.8"/>
+                        </g>
+                        <path d="M52.9721 35.7852C54.3142 35.7852 55.4027 36.8736 55.4027 38.2158V50.5449C55.4027 51.8871 54.3142 52.9755 52.9721 52.9756H50.9746C49.6324 52.9756 48.5439 51.8871 48.5439 50.5449V38.2158C48.5439 36.8736 49.6324 35.7852 50.9746 35.7852H52.9721Z" fill="black"/>
+                        <path d="M63.3304 35.7852C64.6726 35.7852 65.7611 36.8736 65.7611 38.2158V50.5449C65.7611 51.8871 64.6726 52.9756 63.3304 52.9756H61.3329C59.9908 52.9755 58.9033 51.8871 58.9033 50.5449V38.2158C58.9033 36.8736 59.9908 35.7852 61.3329 35.7852H63.3304Z" fill="black"/>
+                    </g>
+                    <defs>
+                        <filter id="filter0_ddd_953_2059" x="9.72748e-05" y="-0.000195503" width="115.202" height="115.2" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                            <feOffset dy="12.8"/>
+                            <feGaussianBlur stdDeviation="12.8"/>
+                            <feComposite in2="hardAlpha" operator="out"/>
+                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0"/>
+                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_953_2059"/>
+                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                            <feOffset dy="3.2"/>
+                            <feGaussianBlur stdDeviation="3.2"/>
+                            <feComposite in2="hardAlpha" operator="out"/>
+                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0"/>
+                            <feBlend mode="normal" in2="effect1_dropShadow_953_2059" result="effect2_dropShadow_953_2059"/>
+                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                            <feOffset dy="0.8"/>
+                            <feGaussianBlur stdDeviation="1.6"/>
+                            <feComposite in2="hardAlpha" operator="out"/>
+                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0"/>
+                            <feBlend mode="normal" in2="effect2_dropShadow_953_2059" result="effect3_dropShadow_953_2059"/>
+                            <feBlend mode="normal" in="SourceGraphic" in2="effect3_dropShadow_953_2059" result="shape"/>
+                        </filter>
+                        <filter id="filter1_g_953_2059" x="-26.4004" y="-39.2007" width="168" height="168" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                            <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                            <feTurbulence type="fractalNoise" baseFrequency="0.01249999925494194 0.01249999925494194" numOctaves="3" seed="3000" />
+                            <feDisplacementMap in="shape" scale="40.000003814697266" xChannelSelector="R" yChannelSelector="G" result="displacedImage" width="100%" height="100%" />
+                            <feMerge result="effect1_texture_953_2059">
+                                <feMergeNode in="displacedImage"/>
+                            </feMerge>
+                        </filter>
+                        <clipPath id="bgblur_0_953_2059_clip_path" transform="translate(26.4004 39.2007)"><rect x="-6.40039" y="-19.2007" width="128" height="128" rx="64"/>
+                        </clipPath><linearGradient id="paint0_linear_953_2059" x1="57.6001" y1="12.7998" x2="57.6001" y2="76.7998" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="white"/>
+                        <stop offset="0.36" stop-color="#808080"/>
+                        <stop offset="1" stop-color="white"/>
+                    </linearGradient>
+                        <linearGradient id="paint1_linear_953_2059" x1="57.6001" y1="12.7998" x2="57.6001" y2="76.7998" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="white"/>
+                            <stop offset="0.36" stop-color="#808080"/>
+                            <stop offset="1" stop-color="white"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <div class="stats-row">
+        <a href="/music">
+        <div class="stat-card">
+            <svg class="stat-card__gradient" width="250" height="133" viewBox="0 0 371 162" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMax slice">
+                <g filter="url(#filter0_f_604_1810)">
+                    <path d="M549 309H172C172 309 350.656 263.351 408.492 191.325C494.647 84.0334 549 50 549 50V309Z" fill="#75D5EF"/>
+                    <path d="M549 309H172C172 309 350.656 263.351 408.492 191.325C494.647 84.0334 549 50 549 50V309Z" stroke="white"/>
+                </g>
+                <g filter="url(#filter1_f_604_1810)">
+                    <path d="M378 198.5C378 261.184 313.529 312 234 312C154.471 312 90 261.184 90 198.5C90 135.816 154.471 85 234 85C313.529 85 378 135.816 378 198.5Z" fill="url(#paint0_linear_604_1810)"/>
+                </g>
+                <g filter="url(#filter2_f_604_1810)">
+                    <path d="M539 113C539 175.408 479.006 226 405 226C330.994 226 271 175.408 271 113C271 50.5918 330.994 0 405 0C479.006 0 539 50.5918 539 113Z" fill="url(#paint1_linear_604_1810)"/>
+                </g>
+                <defs>
+                    <filter id="filter0_f_604_1810" x="81.877" y="-40.9028" width="557.623" height="440.403" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                        <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                        <feGaussianBlur stdDeviation="45" result="effect1_foregroundBlur_604_1810"/>
+                    </filter>
+                    <filter id="filter1_f_604_1810" x="0" y="-5" width="468" height="407" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                        <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                        <feGaussianBlur stdDeviation="45" result="effect1_foregroundBlur_604_1810"/>
+                    </filter>
+                    <filter id="filter2_f_604_1810" x="181" y="-90" width="448" height="406" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                        <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                        <feGaussianBlur stdDeviation="45" result="effect1_foregroundBlur_604_1810"/>
+                    </filter>
+                    <linearGradient id="paint0_linear_604_1810" x1="328.791" y1="118.57" x2="135.347" y2="260.373" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#FF8969"/>
+                        <stop offset="1" stop-color="#FFA459"/>
+                    </linearGradient>
+                    <linearGradient id="paint1_linear_604_1810" x1="271" y1="174.788" x2="520.395" y2="41.2726" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#FF5764"/>
+                        <stop offset="1" stop-color="#FF83BB"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+            <svg class="stat-card__icon" width="86" height="86" viewBox="0 0 102 102" fill="none">
+                <g filter="url(#filter0_di_604_1814)">
+                    <rect x="8.215" y="6.215" width="85.57" height="85.57" stroke="white" stroke-width="0.43"/>
+                    <rect x="8.64469" y="6.64518" width="84.71" height="84.71" rx="42.355" stroke="white" stroke-width="0.43"/>
+                    <path d="M51.0012 23.2002C51.0012 23.2002 52.4247 36.487 57.9695 42.0319C63.5143 47.5767 76.8012 49.0002 76.8012 49.0002C76.8012 49.0002 63.5143 50.4237 57.9695 55.9685C52.4247 61.5134 51.0012 74.8002 51.0012 74.8002C51.0012 74.8002 49.5776 61.5134 44.0328 55.9685C38.488 50.4237 25.2012 49.0002 25.2012 49.0002C25.2012 49.0002 38.488 47.5767 44.0328 42.0319C49.5776 36.487 51.0012 23.2002 51.0012 23.2002Z"
+                          fill="white" fill-opacity="0.25"/>
+                </g>
+            </svg>
+            <div class="music-icon">
+                <span class="icon" th:replace="~{fragments/icons :: icon-music}"></span>
+                <p>Selected Atmosphere</p>
+            </div>
+            <p class="stat-atmosphere"><span id="selectedInfo" th:text="${organization.musicAtmosphere.name}"</span></p>
+            <p class="stat-label">(modernity)</p>
+            <p class="stat-label">Synth, lead, bass guitar, rhythm guitar</p>
+            <p class="stat-label">BPM range: 110-115</p>
+        </div>
+        </a>
+        <a href="/stores">
+        <div class="stat-card">
+            <svg class="stat-card__gradient" width="379" height="132" viewBox="0 0 379 132" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMax slice">
+                <g filter="url(#filter0_f_151_2265)">
+                    <ellipse cx="209.251" cy="200.905" rx="129.919" ry="115.095" fill="url(#paint0_radial_151_2265)"/>
+                </g>
+                <g filter="url(#filter1_f_151_2265)">
+                    <ellipse cx="379.936" cy="108.284" rx="128.395" ry="108.284" fill="url(#paint1_radial_151_2265)"/>
+                </g>
+                <defs>
+                    <filter id="filter0_f_151_2265" x="0.0001297" y="6.47846" width="418.502" height="388.853" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                        <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                        <feGaussianBlur stdDeviation="39.666" result="effect1_foregroundBlur_151_2265"/>
+                    </filter>
+                    <filter id="filter1_f_151_2265" x="163.394" y="-88.1466" width="433.084" height="392.862" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                        <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                        <feGaussianBlur stdDeviation="44.0733" result="effect1_foregroundBlur_151_2265"/>
+                    </filter>
+                    <radialGradient id="paint0_radial_151_2265" cx="0" cy="0" r="1" gradientTransform="matrix(-122.299 111.009 -125.307 -110.276 272.115 142.336)" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#FFA492"/>
+                        <stop offset="1" stop-color="#FFA492" stop-opacity="0.64"/>
+                    </radialGradient>
+                    <radialGradient id="paint1_radial_151_2265" cx="0" cy="0" r="1" gradientTransform="matrix(119.632 -96.0259 113.86 113.311 325.454 144.72)" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#FAE680"/>
+                        <stop offset="1" stop-color="#F7E99F" stop-opacity="0.74"/>
+                    </radialGradient>
+                </defs>
+            </svg>
+            <svg class="stat-card__icon" width="86" height="86" viewBox="0 0 87 108" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g filter="url(#filter0_di_151_2268)">
+                    <path d="M40.0596 6.57196C57.3881 6.57196 71.4363 20.6195 71.4365 37.9479V91.2341H8.68359V37.9479C8.68385 20.6197 22.7313 6.57221 40.0596 6.57196Z" stroke="white" stroke-width="0.472971"/>
+                    <path d="M15.2207 43.6241C15.2207 26.1649 29.3742 12.0114 46.8335 12.0114C64.2927 12.0114 78.4463 26.1649 78.4463 43.6241V97.1461H15.2207V43.6241Z" fill="white" fill-opacity="0.45"/>
+                </g>
+                <defs>
+                    <filter id="filter0_di_151_2268" x="-0.000213623" y="2.28882e-05" width="86.893" height="107.705" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                        <feOffset dy="2.11187"/>
+                        <feGaussianBlur stdDeviation="4.22374"/>
+                        <feComposite in2="hardAlpha" operator="out"/>
+                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.07 0"/>
+                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_151_2268"/>
+                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_151_2268" result="shape"/>
+                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                        <feMorphology radius="1.05593" operator="erode" in="SourceAlpha" result="effect2_innerShadow_151_2268"/>
+                        <feOffset dy="1.05593"/>
+                        <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+                        <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0"/>
+                        <feBlend mode="normal" in2="shape" result="effect2_innerShadow_151_2268"/>
+                    </filter>
+                </defs>
+            </svg>
+
+
+            <div class="music-icon">
+                <span class="icon" th:replace="~{fragments/icons :: icon-store}"></span>
+                <p>Active Stores</p>
+            </div>
+            <p class="stat-value" th:text="${activeStores.size()}">15</p>
+            <p class="stat-sub" th:text="${stores.size() + ' total'}">15 total</p>
+        </div>
+        </a>
+        <a href="/analytics">
+        <div class="stat-card">
+            <svg class="stat-card__gradient" width="380" height="133" viewBox="0 0 380 133" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMax slice">
+                <g filter="url(#filter0_f_151_2289)">
+                    <path d="M92.2786 152.168C92.2786 189.426 423.651 179.113 483.133 179.89C542.616 180.666 511.895 54.4021 491.234 17.4659C470.574 -19.4702 234.152 35.6968 307.998 103.877C381.844 172.056 71.6182 115.232 92.2786 152.168Z" fill="#3CBDFD"/>
+                </g>
+                <g filter="url(#filter1_f_151_2289)">
+                    <path d="M497.371 42.3884C488.757 17.0492 281.64 31.4729 349.581 74.7844C417.523 118.096 91.5547 117.414 100.168 142.753C108.782 168.092 393.533 151.621 461.616 146.224C529.7 140.828 505.985 67.7277 497.371 42.3884Z" fill="#FF87F2"/>
+                </g>
+                <defs>
+                    <filter id="filter0_f_151_2289" x="1.28906" y="-84.3812" width="606.516" height="355.019" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                        <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                        <feGaussianBlur stdDeviation="45" result="effect1_foregroundBlur_151_2289"/>
+                    </filter>
+                    <filter id="filter1_f_151_2289" x="0" y="-70.0992" width="608.439" height="326.579" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                        <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                        <feGaussianBlur stdDeviation="50" result="effect1_foregroundBlur_151_2289"/>
+                    </filter>
+                </defs>
+            </svg>
+            <svg class="stat-card__icon" width="86" height="86" viewBox="0 0 102 102" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g filter="url(#filter0_di_151_2292)">
+                    <path d="M50.7607 6.24121C45.2266 6.27217 39.7501 7.37572 34.6357 9.49414C29.4479 11.6431 24.7343 14.793 20.7637 18.7637C16.793 22.7343 13.6431 27.4479 11.4941 32.6357C9.37572 37.7501 8.27315 43.2266 8.24219 48.7607H50.7607V6.24121Z" stroke="white" stroke-width="0.477778"/>
+                    <circle cx="29.5" cy="70.5" r="21.2611" stroke="white" stroke-width="0.477778"/>
+                    <path d="M72.2607 70.5C72.2607 67.708 71.711 64.9428 70.6426 62.3633C69.5741 59.7839 68.0083 57.44 66.0342 55.4658C64.06 53.4917 61.7161 51.9259 59.1367 50.8574C56.6309 49.8195 53.9499 49.2727 51.2393 49.2422V91.7578C53.9499 91.7273 56.6309 91.1805 59.1367 90.1426C61.7161 89.0741 64.06 87.5083 66.0342 85.5342C68.0083 83.56 69.5741 81.2161 70.6426 78.6367C71.711 76.0572 72.2607 73.292 72.2607 70.5Z" stroke="white" stroke-width="0.477778"/>
+                    <path d="M72.7393 70.5C72.7393 67.708 73.289 64.9428 74.3574 62.3633C75.4259 59.7839 76.9917 57.44 78.9658 55.4658C80.94 53.4917 83.2839 51.9259 85.8633 50.8574C88.3691 49.8195 91.0501 49.2727 93.7607 49.2422V91.7578C91.0501 91.7273 88.3691 91.1805 85.8633 90.1426C83.2839 89.0741 80.94 87.5083 78.9658 85.5342C76.9917 83.56 75.4259 81.2161 74.3574 78.6367C73.289 76.0572 72.7393 73.292 72.7393 70.5Z" stroke="white" stroke-width="0.477778"/>
+                    <path d="M93.4229 27.2607H51.5771L72.5 6.33789L93.4229 27.2607Z" stroke="white" stroke-width="0.477778"/>
+                    <path d="M93.4229 48.7607H51.5771L72.5 27.8379L93.4229 48.7607Z" stroke="white" stroke-width="0.477778"/>
+                </g>
+                <defs>
+                    <filter id="filter0_di_151_2292" x="0" y="0" width="102" height="102" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                        <feOffset dy="2"/>
+                        <feGaussianBlur stdDeviation="4"/>
+                        <feComposite in2="hardAlpha" operator="out"/>
+                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.07 0"/>
+                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_151_2292"/>
+                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_151_2292" result="shape"/>
+                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                        <feMorphology radius="1" operator="erode" in="SourceAlpha" result="effect2_innerShadow_151_2292"/>
+                        <feOffset dy="1"/>
+                        <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+                        <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0"/>
+                        <feBlend mode="normal" in2="shape" result="effect2_innerShadow_151_2292"/>
+                    </filter>
+                </defs>
+            </svg>
+            <div class="music-icon">
+                <span class="icon" th:replace="~{fragments/icons :: icon-start}"></span>
+                <p>Daily Plays/minutes</p>
+            </div>
+            <p class="stat-value" th:text="${(dailyPlaysAndMinutes.totalPlays >= 0 ? '0': '')}">5,420</p>
+            <div class="store-status">
+                <p class="stat-sub">total plays today</p>
+                <span class="jingle-badge" th:text="${'↑' + dailyPlaysAndMinutes.totalPlaysGrowthPercentage + '%'}">
+                <svg width="7" height="7" viewBox="0 0 7 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3.1204 0.0538223C3.3413 -0.0179511 3.57967 -0.0179305 3.80058 0.0538223L3.85966 0.0748184C3.99306 0.128242 4.09693 0.205133 4.17753 0.273549C4.26429 0.347206 4.35851 0.442327 4.45048 0.534291L6.7454 2.82921L6.78642 2.87462C6.97863 3.11024 6.96495 3.45767 6.7454 3.67736C6.51108 3.91167 6.13108 3.91167 5.89677 3.67736L4.06083 1.84142V6.39757L4.05741 6.4591C4.02657 6.76145 3.7712 6.99756 3.46073 6.99767C3.15017 6.99767 2.89441 6.76152 2.86356 6.4591L2.86063 6.39757V1.84093L1.02421 3.67736L0.978798 3.71886C0.743132 3.91114 0.39527 3.89705 0.175575 3.67736C-0.0439198 3.45766 -0.0576391 3.11022 0.134559 2.87462L0.175575 2.82921L2.4705 0.534291C2.56249 0.4423 2.65666 0.347227 2.74345 0.273549C2.83555 0.195356 2.95811 0.106603 3.1204 0.0538223Z" fill="#10A102"/>
+                </svg>
+                12%
+                </span>
+            </div>
+        </div>
+        </a>
+    </div>
+</div>
+    <p class="store-title">Stores</p>
+    <div class="content-grid">
+
+    <div th:each="store : ${stores}" th:attr="data-id=${store.id}">
+
+        <div class="store-info">
+
+            <div class="store-title-row">
+                <div class="store-status">
+                    <h3 th:text="${store.name}">Store name</h3>
+
+                    <span class="status-badge"
+                          th:classappend="${store.active ? 'active' : 'inactive'}"
+                          th:text="${store.active ? '⬤ Active' : '⬤ Inactive'}">
+                        </span>
+                </div>
+
+                <!-- ACTION BUTTON -->
+                <button th:if="${store.active}"
+                        class="btn-link-store"
+                        th:attr="onclick=|openLink(${store.id}, '${store.name}', '${store.musicLink}')|">
+                    View store
+                </button>
+
+                <button th:unless="${store.active}"
+                        class="btn-link-store"
+                        th:attr="onclick=|activateStore(${store.id}, '${store.name}')|">
+                    Activate store
+                </button>
+            </div>
+
+            <div class="store-details">
+                <div class="location-title">
+                    <div class="icon-store">
+                        <span th:replace="~{fragments/icons :: icon-store}"></span></div>
+                    <span th:text="${store.location}">Location</span>
+                </div>
+
+                <div class="location-title">
+                    <span th:replace="~{fragments/icons :: icon-email}"></span>
+                    <span th:text="${store.email}">Email</span>
+                </div>
+            </div>
+
+            <div class="access-title">
+                <p th:if="${store.active}"
+                   th:text="|Last accessed: ${#temporals.format(store.lastAccessDate, 'dd MMM, yyyy', new java.util.Locale('en'))}|">
+                </p>
+                <p th:unless="${store.active}">
+                    Activate this store to generate a music access link
+                </p>
+            </div>
+
+        </div>
+    </div>
+    </div>
+    <!-- LINK MODAL -->
+    <div id="linkModalOverlay" class="modal-overlay" onclick="closeLinkModal()"></div>
+
+    <div id="linkModal" class="modal link-modal">
+        <div class="modal-body">
+
+            <div class="modal-header">
+                <h2>Store music link</h2>
+                <span class="close" onclick="closeLinkModal()">
+                    <span class="icon" th:replace="~{fragments/icons :: icon-close}"></span>
+                </span>
+            </div>
+
+            <div class="modal-content">
+                <p class="status-active">Store is active now</p>
+                <p class="store-name" id="storeName"></p>
+            </div>
+
+            <div class="link-row">
+                <p class="label">Music access link</p>
+                <div class="link-card">
+                    <div id="storeLink" class="link-box"></div>
+                    <button onclick="copyLink()" class="btn-copy">
+                        <span th:replace="~{fragments/icons :: icon-copy}"></span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button onclick="regenerateLink()" class="btn-secondary">
+                    <span th:replace="~{fragments/icons :: icon-regenerate}"></span>
+                    <span class="btn-title">Regenerate link</span>
+                </button>
+                <button onclick="copyLink()" class="btn-primary">
+                    <span th:replace="~{fragments/icons :: icon-link}"></span>
+                    <span class="btn-title">Copy link</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast" class="toast">
+        <span class="icon" th:insert="~{fragments/icons :: icon-toast}"></span>
+        <span id="toastText">Link copied</span>
+    </div>
+    <script>
+        let currentStoreId = null;
+        let currentLink = "";
+
+        // безопасный escape для onclick строк (так как HTML менять нельзя)
+        function safeStr(str) {
+            return (str || "").replace(/'/g, "\\'");
+        }
+
+        function openLink(id, name, link) {
+            currentStoreId = id;
+            currentLink = link || "";
+
+            const nameEl = document.getElementById("storeName");
+            const linkEl = document.getElementById("storeLink");
+            const modal = document.getElementById("linkModal");
+            const overlay = document.getElementById("linkModalOverlay");
+
+            if (nameEl) nameEl.innerText = name || "";
+            if (linkEl) linkEl.innerText = link || "Loading...";
+
+            if (modal) modal.style.display = "block";
+            if (overlay) overlay.style.display = "block";
+        }
+
+        function closeLinkModal() {
+            document.getElementById("linkModal")?.style && (document.getElementById("linkModal").style.display = "none");
+            document.getElementById("linkModalOverlay")?.style && (document.getElementById("linkModalOverlay").style.display = "none");
+        }
+
+        function activateStore(id, name) {
+            currentStoreId = id;
+
+            openLink(id, name, "Loading...");
+
+            const token = document.querySelector('meta[name="_csrf"]')?.content;
+            const header = document.querySelector('meta[name="_csrf_header"]')?.content;
+
+            fetch(`/api/stores/activate/${id}`, {
+                method: "POST",
+                headers: { [header]: token }
+            })
+                .then(() =>
+                    fetch(`/api/stores/regenerate-link/${id}`, {
+                        method: "POST",
+                        headers: { [header]: token }
+                    })
+                )
+                .then(res => res.text())
+                .then(link => {
+                    currentLink = link;
+
+                    const linkEl = document.getElementById("storeLink");
+                    if (linkEl) linkEl.innerText = link;
+
+                    updateStoreCard(id, name, link);
+                    showToast("Store activated!");
+                })
+                .catch(() => {
+                    const linkEl = document.getElementById("storeLink");
+                    if (linkEl) linkEl.innerText = "Error";
+                    showToast("Activation failed");
+                });
+        }
+
+        function updateStoreCard(id, name, link) {
+            const wrapper = document.querySelector(`[data-id="${id}"]`);
+            if (!wrapper) return;
+
+            const badge = wrapper.querySelector(".status-badge");
+            if (badge) {
+                badge.innerText = "⬤ Active";
+                badge.classList.remove("inactive");
+                badge.classList.add("active");
+            }
+
+            const btn = wrapper.querySelector(".btn-link-store");
+            if (btn) {
+                btn.innerText = "View store";
+                btn.onclick = () => openLink(id, name, link);
+            }
+
+            const accessTitle = wrapper.querySelector(".access-title p");
+            if (accessTitle) {
+                const date = new Date().toLocaleDateString("en-GB", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric"
+                });
+                accessTitle.innerText = "Last accessed: " + date;
+            }
+        }
+
+        function regenerateLink() {
+            if (!currentStoreId) return;
+
+            const token = document.querySelector('meta[name="_csrf"]')?.content;
+            const header = document.querySelector('meta[name="_csrf_header"]')?.content;
+
+            fetch(`/api/stores/regenerate-link/${currentStoreId}`, {
+                method: "POST",
+                headers: { [header]: token }
+            })
+                .then(res => res.text())
+                .then(link => {
+                    currentLink = link;
+                    const linkEl = document.getElementById("storeLink");
+                    if (linkEl) linkEl.innerText = link;
+                    showToast("Link regenerated");
+                })
+                .catch(() => showToast("Failed to regenerate link"));
+        }
+
+        function copyLink() {
+            if (!currentLink) {
+                showToast("Link not ready");
+                return;
+            }
+
+            // ✅ современный способ
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(currentLink)
+                    .then(() => showToast("Link copied"))
+                    .catch(() => fallbackCopy());
+            } else {
+                // ❗ если clipboard недоступен
+                fallbackCopy();
+            }
+        }
+
+        function fallbackCopy() {
+            const textarea = document.createElement("textarea");
+            textarea.value = currentLink;
+
+            textarea.style.position = "fixed";
+            textarea.style.opacity = "0";
+
+            document.body.appendChild(textarea);
+            textarea.focus();
+            textarea.select();
+
+            try {
+                document.execCommand("copy");
+                showToast("Link copied");
+            } catch (err) {
+                showToast("Copy failed");
+            }
+
+            document.body.removeChild(textarea);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            const text = document.getElementById("toastText");
+
+            if (text) text.innerText = message;
+            if (!toast) return;
+
+            toast.classList.add("show");
+            setTimeout(() => toast.classList.remove("show"), 2500);
+        }
+
+        /* ===== PLAY / PAUSE ===== */
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const musicPreviewUrl = /*[[${musicPreviewUrl}]]*/ null;
+
+            const audio = musicPreviewUrl ? new Audio(musicPreviewUrl) : null;
+            const btn = document.getElementById("playPauseBtn");
+
+            const playIcon = document.getElementById("icon-play");
+            const pauseIcon = document.getElementById("icon-pause");
+
+            if (!btn || !audio) return;
+
+            function updateUI() {
+                const playing = !audio.paused;
+
+                btn.classList.toggle("is-playing", playing);
+
+                if (playIcon && pauseIcon) {
+                    playIcon.style.display = playing ? "none" : "block";
+                    pauseIcon.style.display = playing ? "block" : "none";
+                }
+            }
+
+            btn.addEventListener("click", () => {
+                if (audio.paused) audio.play();
+                else audio.pause();
+                updateUI();
+            });
+
+            audio.addEventListener("ended", updateUI);
+        });
+    </script>
+    <script th:inline="javascript">
+        const musicPreviewUrl = /*[[${musicPreviewUrl}]]*/ null;
+
+        const audio = musicPreviewUrl ? new Audio(musicPreviewUrl) : null;
+        const btn = document.getElementById('playPauseBtn');
+
+        btn.addEventListener('click', function () {
+            if (!audio) return;
+
+            if (audio.paused) {
+                audio.play();
+                btn.classList.add('is-playing');
+            } else {
+                audio.pause();
+                btn.classList.remove('is-playing');
+            }
+        });
+
+        if (audio) {
+            audio.addEventListener('ended', () => {
+                btn.classList.remove('is-playing');
+            });
+        }
+    </script>
+
+</th:block>
+</html>

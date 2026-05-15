@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/onboarding :: layout(~{::content}, 'Current Feel', 'current-feel.css', 'step-3.png')}">
+
+<th:block th:fragment="content">
+    <div class="step-content">
+        <div class="title-content">
+            <h1>Right now, your space usually feels...</h1>
+            <p>Pick what customers experience before music is added</p>
+        </div>
+
+        <form th:action="@{/onboarding/step-3}" method="post">
+            <div class="chips">
+                <label th:each="feel : ${currentFeels}" class="chip">
+                    <input type="checkbox" name="currentFeels" th:value="${feel}">
+                    <span th:text="${feel.name}">Busy & Fast-moving</span>
+                </label>
+            </div>
+
+            <hr>
+            <button class="btn-primary" type="submit" id="continueBtn" disabled>
+                Continue
+            </button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const checkboxes = document.querySelectorAll('input[name="currentFeels"]');
+            const continueBtn = document.getElementById('continueBtn');
+
+            function validateSelection() {
+                const hasSelection = Array.from(checkboxes).some(cb => cb.checked);
+                continueBtn.disabled = !hasSelection;
+            }
+
+            checkboxes.forEach(cb => cb.addEventListener('change', validateSelection));
+        });
+    </script>
+</th:block>
+</html>

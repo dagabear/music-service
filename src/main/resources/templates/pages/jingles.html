@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(
+                    ~{::content},
+                    'Jingles - GenVibe',
+                    'jingles.css',
+                    'Create jingles',
+                    'jingles'
+                    )}">
+
+<th:block th:fragment="content">
+    <div class="jingles-page">
+        <p class="subtitle">Monthly generation limit: 20 jingles</p>
+
+        <section class="content-card">
+            <form th:action="@{/api/jingles}" method="post" id="jingleForm">
+
+                <div class="voice-selector">
+                    <h3>Compose Announcement</h3>
+                    <p>Voice</p>
+                    <div class="voice-grid">
+                        <label th:each="voice : ${jingleVoice}"
+                               th:classappend="${voice.name() == 'RACHEL'} ? 'active' : ''"
+                               class="voice-card">
+                            <input type="radio" name="voice"
+                                   th:value="${voice.name()}"
+                                   th:checked="${voice.name() == 'RACHEL'}"
+                                   style="display: none;">
+                            <div class="voice-info">
+                                <span class="voice-name" th:text="${voice.name}">Rachel</span>
+                                <span class="voice-desc" th:text="${voice.description}">Calm & Clear</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-row-triple">
+
+                    <!-- CATEGORY -->
+                    <div class="select-wrapper custom-dropdown">
+                        <div class="custom-select-header">
+                            Select Jingle Category
+                            <span class="icon" th:replace="~{fragments/icons :: icon-select}"></span>
+                        </div>
+
+                        <ul class="custom-select-options">
+                            <li th:each="cat : ${jingleCategory}"
+                                th:data-value="${cat.name()}"
+                                th:text="${cat.name}">Category</li>
+                        </ul>
+
+                        <select name="category" required style="display:none;">
+                            <option value="" disabled selected>Select Jingle Category</option>
+                            <option th:each="cat : ${jingleCategory}"
+                                    th:value="${cat.name()}"
+                                    th:text="${cat.name}"></option>
+                        </select>
+
+                        <div class="speed-range">
+                            <span class="speed-text">Slower</span>
+
+                            <input type="range"
+                                   name="speed"
+                                   min="0.70"
+                                   max="1.20"
+                                   step="0.01"
+                                   value="1"
+                                   id="speedRange">
+
+                            <span class="speed-text">Faster</span>
+
+                            <!-- 👇 ВОТ ЭТО ДОБАВЬ -->
+                            <span id="speedValue">1.00</span>
+                        </div>
+                    </div>
+                    <div class="select-wrapper date-range-picker">
+
+                        <!-- Trigger -->
+                        <div class="date-display">
+                            <span id="dateLabel">Select Start/End Date</span>
+                            <span class="icon" th:replace="~{fragments/icons :: icon-select}"></span>
+                        </div>
+
+                        <!-- POPUP -->
+                        <div class="date-picker-dropdown">
+
+                            <!-- Header -->
+                            <div class="calendar-header">
+                                <button type="button" class="nav-btn" id="prevMonth">‹</button>
+                                <div class="calendar-title" id="monthLabel">April 2026</div>
+                                <button type="button" class="nav-btn" id="nextMonth">›</button>
+                            </div>
+
+                            <!-- Calendar -->
+                            <div class="calendar-weekdays">
+                                <div>Su</div>
+                                <div>Mo</div>
+                                <div>Tu</div>
+                                <div>We</div>
+                                <div>Th</div>
+                                <div>Fr</div>
+                                <div>Sa</div>
+                            </div>
+                            <div id="calendarGrid" class="calendar-grid"></div>
+
+                            <!-- Time -->
+                            <div class="time-picker">
+                                <select id="startHour"></select>
+                                <span>:</span>
+                                <select id="startMinute"></select>
+                                <select id="startAmPm">
+                                    <option>AM</option>
+                                    <option>PM</option>
+                                </select>
+                            </div>
+
+                            <!-- Footer -->
+                            <div class="date-footer">
+                                <span id="rangePreview">--</span>
+
+                                <div class="footer-actions">
+                                    <button type="button" class="btn-cancel">Cancel</button>
+                                    <button type="button" class="btn-apply">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- hidden fields -->
+                        <input type="hidden" name="startDate" id="startDate">
+                        <input type="hidden" name="endDate" id="endDate">
+                    </div>
+                    <!-- REPEATING -->
+                    <div class="select-wrapper custom-dropdown">
+                        <div class="custom-select-header">
+                            Repeating Time
+                            <span class="icon" th:replace="~{fragments/icons :: icon-select}"></span>
+                        </div>
+
+                        <ul class="custom-select-options">
+                            <li th:each="time : ${jingleRepeatingTime}"
+                                th:data-value="${time.name()}"
+                                th:text="${time.name}">Every hour</li>
+                        </ul>
+
+                        <select name="repeatingTime" required style="display:none;">
+                            <option value="" disabled selected>Repeating Time</option>
+                            <option th:each="time : ${jingleRepeatingTime}"
+                                    th:value="${time.name()}"
+                                    th:text="${time.name}"></option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="form-group no-margin">
+                    <p>Announcement Text</p>
+                    <textarea name="announcementText" maxlength="500"
+                              placeholder="e.g. Welcome to our store! Today's special offer: 20% off all items. Enjoy your visit."></textarea>
+                    <div class="char-counter">0/500 characters</div>
+                </div>
+
+                <button type="submit" class="btn-generate">
+                    <span class="icon" th:replace="~{fragments/icons :: icon-generate}"></span>
+                    Generate Jingle
+                </button>
+            </form>
+        </section>
+
+        <section class="history-section">
+            <h3>Jingle History</h3>
+            <div class="jingle-list">
+                <div th:each="jingle : ${jingleHistory}" class="jingle-item">
+                    <div class="item-container">
+                        <button class="play-btn"
+                                th:data-src="${jingle.fileUrl}"
+                                onclick="toggleAudio(this)">
+                            <span class="icon" th:replace="~{fragments/icons :: icon-start}"></span>
+                            <span class="icon" th:replace="~{fragments/icons :: icon-pause}"></span>
+                        </button>
+
+                        <div class="jingle-details">
+                            <p class="jingle-title" th:text="${jingle.announcementText}">Text</p>
+
+                            <p class="jingle-meta"
+                               th:text="${jingle.voice + ' · ' + '30s' + ' · Start date ' + #temporals.format(jingle.startDate, 'dd.MM.yyyy') + '/ End date ' + #temporals.format(jingle.endDate, 'dd.MM.yyyy')}" th:attr="data-src=${jingle.fileUrl}">
+                                Voice · Duration · Date
+                            </p>
+
+                            <p class="jingle-meta">
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7.42708 3.79053e-06C11.4208 0.000556932 14.6613 3.24056 14.6615 7.23438C14.6613 11.2285 11.42 14.4688 7.42578 14.4688L7.14583 14.4635C5.74839 14.4093 4.39396 13.9508 3.2487 13.1413C2.0271 12.2776 1.10267 11.0562 0.603516 9.64584C0.456407 9.2295 0.674906 8.77245 1.09115 8.625C1.50747 8.47779 1.96445 8.69579 2.11198 9.11198C2.50078 10.2105 3.22102 11.1619 4.17253 11.8346C5.12407 12.5072 6.26119 12.8677 7.42643 12.8678C10.5368 12.8676 13.0604 10.3447 13.0605 7.23438C13.0604 4.12388 10.5357 1.59961 7.42513 1.59961C6.66351 1.59871 5.9092 1.75248 5.20898 2.05209C4.51197 2.35038 3.88251 2.78725 3.35872 3.33529L3.34701 3.34896L4.43164 4.43295C4.85168 4.85287 4.55429 5.57097 3.96029 5.57097H0.666667C0.298613 5.57082 2.39919e-05 5.27238 0 4.9043V1.61329C2.91144e-05 1.0195 0.717977 0.722221 1.13802 1.14193L2.21484 2.2168L2.45182 1.98047C3.07169 1.39237 3.7921 0.918328 4.57943 0.581384C5.47886 0.1965 6.44747 -0.000997797 7.42578 3.79053e-06H7.42708Z" fill="black" fill-opacity="0.2"/>
+                                    <path d="M7.33333 3.6211C7.77509 3.6211 8.13335 3.9795 8.13346 4.42123V7.10026H9.77148L9.7793 7.10092L9.83073 7.10352L9.84505 7.10482C10.2485 7.14586 10.5636 7.48611 10.5638 7.90039C10.5636 8.31478 10.2484 8.65559 9.84505 8.69662L9.83073 8.69792L9.7793 8.70053L9.77148 8.70118H7.33854C7.26566 8.70118 7.19609 8.69047 7.13151 8.67318H7.12956C7.12674 8.67252 7.11782 8.67037 7.10742 8.66732L7.10417 8.66602C7.09782 8.66408 7.09215 8.66225 7.08984 8.66146L7.08854 8.66081L7.0306 8.63933L7.02734 8.63803C6.99566 8.62464 6.96663 8.60989 6.94076 8.59506C6.7232 8.47198 6.56507 8.24844 6.53776 7.98177L6.53711 7.97461L6.53646 7.9668L6.53385 7.91602L6.5332 7.90821V4.42123C6.53332 3.97957 6.89168 3.62122 7.33333 3.6211Z" fill="black" fill-opacity="0.2"/>
+                                </svg>
+                                <span th:text="${'Repeating: ' + jingle.repeatingTime.name}"></span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="waveform-placeholder">
+                        <canvas class="waveCanvas"></canvas>
+                    </div>
+                    <div class="modern-actions">
+                        <button class="btn-location"
+                                th:classappend="${jingle.stores != null and !jingle.stores.empty} ? 'btn-location--active' : ''"
+                                th:data-id="${jingle.id}">
+                            <span th:text="${jingle.stores != null and !jingle.stores.empty} ? ${jingle.stores.size() + ' location' + (jingle.stores.size() > 1 ? 's' : '')} : '+ Add to locations'">
+                                + Add to locations
+                            </span>
+                        </button>
+
+                        <button class="btn-delete-icon" th:data-id="${jingle.id}">
+                            <span class="icon" th:replace="~{fragments/icons :: icon-trash}"></span>
+                        </button>
+                    </div>
+                </div>
+                <audio id="globalAudioPlayer" style="display: none;"></audio>
+            </div>
+        </section>
+        <div id="storesModalOverlay" class="modal-overlay" onclick="closeStoresModal()"></div>
+
+        <div id="storesModal" class="modal link-modal">
+            <div class="modal-body">
+                <div class="modal-header">
+                    <h2>Add location</h2>
+                    <span class="close" onclick="closeStoresModal()">
+                <span class="icon" th:replace="~{fragments/icons :: icon-close}"></span>
+            </span>
+                </div>
+
+                <div id="storesList" class="modal-content">
+                    <div th:each="store : ${activeStores}"
+                         class="store-item"
+                         th:attr="data-id=${store.id}"
+                         th:onclick="|toggleStore(${store.id}, this)|">
+                        <span th:text="${store.name}"></span>
+                        <span class="store-check">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.21875 0C7.88149 2.89694e-08 8.41895 0.537454 8.41895 1.2002V6.00879H13.2275L13.3506 6.01562C13.9554 6.07739 14.4277 6.5879 14.4277 7.20898C14.4275 7.82988 13.9553 8.34064 13.3506 8.40234L13.2275 8.40918H8.41895V13.2266L8.41211 13.3496C8.35059 13.9546 7.84002 14.4268 7.21875 14.4268C6.59748 14.4268 6.08691 13.9546 6.02539 13.3496L6.01855 13.2266V8.40918H1.20117C0.538593 8.40918 0.0002638 7.8715 0 7.20898C0 6.54624 0.53843 6.00879 1.20117 6.00879H6.01855V1.2002C6.01855 0.537454 6.55601 -6.06131e-10 7.21875 0Z" fill="black"/></svg>
+    </span>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button class="btn-primary" onclick="saveJingleStores()">Save</button>
+                </div>
+            </div>
+        </div>
+        <section class="history-section">
+            <h3>Requests to Pause/Stop</h3>
+            <div class="jingle-list">
+                <div th:each="request : ${jingleRequestsToPause}"
+                     class="jingle-item" th:classappend="${request.pauseApproved} ? 'status-approved' : ''">
+                    <div class="item-container">
+                        <button class="play-btn"
+                                th:data-src="${request.fileUrl}"
+                                onclick="toggleAudio(this)">
+                            <span class="icon" th:replace="~{fragments/icons :: icon-start}"></span>
+                            <span class="icon" th:replace="~{fragments/icons :: icon-pause}"></span>
+                        </button>
+                        <div class="jingle-details">
+                            <p class="jingle-title" th:text="${request.announcementText}">Text</p>
+                            <p class="jingle-meta"
+                               th:text="${request.voice + ' · ' + '30s' + ' · Start date ' + #temporals.format(request.startDate, 'dd.MM.yyyy') + '/ End date ' + #temporals.format(request.endDate, 'dd.MM.yyyy')}" th:attr="data-src=${request.fileUrl}">
+                                Voice · Duration · Date
+                            </p>
+
+                            <p class="jingle-meta">
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7.42708 3.79053e-06C11.4208 0.000556932 14.6613 3.24056 14.6615 7.23438C14.6613 11.2285 11.42 14.4688 7.42578 14.4688L7.14583 14.4635C5.74839 14.4093 4.39396 13.9508 3.2487 13.1413C2.0271 12.2776 1.10267 11.0562 0.603516 9.64584C0.456407 9.2295 0.674906 8.77245 1.09115 8.625C1.50747 8.47779 1.96445 8.69579 2.11198 9.11198C2.50078 10.2105 3.22102 11.1619 4.17253 11.8346C5.12407 12.5072 6.26119 12.8677 7.42643 12.8678C10.5368 12.8676 13.0604 10.3447 13.0605 7.23438C13.0604 4.12388 10.5357 1.59961 7.42513 1.59961C6.66351 1.59871 5.9092 1.75248 5.20898 2.05209C4.51197 2.35038 3.88251 2.78725 3.35872 3.33529L3.34701 3.34896L4.43164 4.43295C4.85168 4.85287 4.55429 5.57097 3.96029 5.57097H0.666667C0.298613 5.57082 2.39919e-05 5.27238 0 4.9043V1.61329C2.91144e-05 1.0195 0.717977 0.722221 1.13802 1.14193L2.21484 2.2168L2.45182 1.98047C3.07169 1.39237 3.7921 0.918328 4.57943 0.581384C5.47886 0.1965 6.44747 -0.000997797 7.42578 3.79053e-06H7.42708Z" fill="black" fill-opacity="0.2"/>
+                                    <path d="M7.33333 3.6211C7.77509 3.6211 8.13335 3.9795 8.13346 4.42123V7.10026H9.77148L9.7793 7.10092L9.83073 7.10352L9.84505 7.10482C10.2485 7.14586 10.5636 7.48611 10.5638 7.90039C10.5636 8.31478 10.2484 8.65559 9.84505 8.69662L9.83073 8.69792L9.7793 8.70053L9.77148 8.70118H7.33854C7.26566 8.70118 7.19609 8.69047 7.13151 8.67318H7.12956C7.12674 8.67252 7.11782 8.67037 7.10742 8.66732L7.10417 8.66602C7.09782 8.66408 7.09215 8.66225 7.08984 8.66146L7.08854 8.66081L7.0306 8.63933L7.02734 8.63803C6.99566 8.62464 6.96663 8.60989 6.94076 8.59506C6.7232 8.47198 6.56507 8.24844 6.53776 7.98177L6.53711 7.97461L6.53646 7.9668L6.53385 7.91602L6.5332 7.90821V4.42123C6.53332 3.97957 6.89168 3.62122 7.33333 3.6211Z" fill="black" fill-opacity="0.2"/>
+                                </svg>
+                                <span th:text="${'Repeating: ' + request.repeatingTime.name}"></span>
+                            </p>
+                            <p class="location-tag" th:if="${not #lists.isEmpty(request.stores)}">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8.0023 0.941406C5.26557 0.941406 3.03906 3.16791 3.03906 5.90464C3.03906 6.82929 3.29519 7.73166 3.77994 8.51453L7.71978 14.8635C7.79525 14.9852 7.92821 15.0591 8.0712 15.0591C8.07231 15.0591 8.07338 15.0591 8.07449 15.0591C8.21872 15.0579 8.35196 14.9817 8.42605 14.858L12.2655 8.44747C12.7235 7.68115 12.9655 6.80186 12.9655 5.90464C12.9655 3.16791 10.739 0.941406 8.0023 0.941406ZM11.5556 8.02278L8.06494 13.8509L4.48301 8.0787C4.07952 7.42709 3.86075 6.67532 3.86075 5.90464C3.86075 3.62403 5.72169 1.7631 8.0023 1.7631C10.2829 1.7631 12.1411 3.62403 12.1411 5.90464C12.1411 6.65246 11.9367 7.38501 11.5556 8.02278Z" fill="black" fill-opacity="0.5"/>
+                                    <path d="M8.00115 3.42188C6.63278 3.42188 5.51953 4.53513 5.51953 5.90349C5.51953 7.26312 6.61467 8.38511 8.00115 8.38511C9.40472 8.38511 10.4828 7.24817 10.4828 5.90349C10.4828 4.53513 9.36951 3.42188 8.00115 3.42188ZM8.00115 7.56342C7.08414 7.56342 6.34122 6.81802 6.34122 5.90349C6.34122 4.99125 7.08891 4.24357 8.00115 4.24357C8.91339 4.24357 9.65832 4.99125 9.65832 5.90349C9.65832 6.80468 8.93269 7.56342 8.00115 7.56342Z" fill="black" fill-opacity="0.5"/>
+                                </svg>
+                                <span th:text="${request.stores[0].name}">Store</span>
+                            </p>
+                        </div>
+                    </div>
+                        <div class="waveform-placeholder">
+                            <canvas class="waveCanvas"></canvas>
+                        </div>
+                    <!-- Находим эту часть в вашем коде -->
+                    <div class="modern-actions">
+                        <span th:if="${request.pauseApproved}" class="badge-approved">
+                            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M6.41667 0C9.96043 7.69658e-05 12.8333 2.87289 12.8333 6.41667C12.8333 9.96045 9.96043 12.8333 6.41667 12.8333C2.87284 12.8333 0 9.96049 0 6.41667C0 2.87284 2.87284 0 6.41667 0ZM8.29769 4.18929C8.04108 4.03011 7.70911 4.09415 7.52865 4.32829L7.49447 4.37728L5.44084 7.68644L4.76408 6.70833L4.72762 6.66105C4.53566 6.43632 4.20061 6.389 3.95231 6.56079C3.70397 6.73271 3.63052 7.06299 3.77344 7.32186L3.80477 7.37256L4.58293 8.4965C4.64407 8.58485 4.71196 8.68448 4.77718 8.76253C4.83475 8.83141 4.92995 8.93396 5.07284 9.00521L5.13664 9.03369C5.35484 9.11862 5.59799 9.11231 5.81169 9.0166L5.87435 8.98527C6.0134 8.90701 6.10342 8.79999 6.15747 8.72835C6.21873 8.64714 6.28139 8.54394 6.33805 8.45264L8.48568 4.99251L8.51473 4.9401C8.64436 4.67445 8.55427 4.34853 8.29769 4.18929Z" fill="black"/>
+                            </svg>
+                            Approved
+                        </span>
+
+                        <!-- Измененная кнопка -->
+                        <button th:if="${!request.pauseApproved}"
+                                class="btn-outline btn-approve-pause"
+                                th:data-id="${request.id}"
+                                onclick="handleApprovePause(this)">
+                            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M6.41667 0C9.96043 7.69658e-05 12.8333 2.87289 12.8333 6.41667C12.8333 9.96045 9.96043 12.8333 6.41667 12.8333C2.87284 12.8333 0 9.96049 0 6.41667C0 2.87284 2.87284 0 6.41667 0ZM8.29769 4.18929C8.04108 4.03011 7.70911 4.09415 7.52865 4.32829L7.49447 4.37728L5.44084 7.68644L4.76408 6.70833L4.72762 6.66105C4.53566 6.43632 4.20061 6.389 3.95231 6.56079C3.70397 6.73271 3.63052 7.06299 3.77344 7.32186L3.80477 7.37256L4.58293 8.4965C4.64407 8.58485 4.71196 8.68448 4.77718 8.76253C4.83475 8.83141 4.92995 8.93396 5.07284 9.00521L5.13664 9.03369C5.35484 9.11862 5.59799 9.11231 5.81169 9.0166L5.87435 8.98527C6.0134 8.90701 6.10342 8.79999 6.15747 8.72835C6.21873 8.64714 6.28139 8.54394 6.33805 8.45264L8.48568 4.99251L8.51473 4.9401C8.64436 4.67445 8.55427 4.34853 8.29769 4.18929Z" fill="black"/>
+                            </svg>
+                            Approve
+                        </button>
+                        <button class="btn-delete-icon" th:data-id="${request.id}">
+                            <span class="icon" th:replace="~{fragments/icons :: icon-trash}"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script>
+        const speedRange = document.getElementById('speedRange');
+        const speedValue = document.getElementById('speedValue');
+
+        function formatSpeed(val) {
+            return Number(val).toFixed(2);
+        }
+
+        // init
+        if (speedRange && speedValue) {
+            speedValue.textContent = formatSpeed(speedRange.value);
+
+            speedRange.addEventListener('input', () => {
+                speedValue.textContent = formatSpeed(speedRange.value);
+            });
+        }
+        document.querySelectorAll('.jingle-meta').forEach(el => {
+            const src = el.dataset.src;
+            if (!src) return;
+
+            const audio = new Audio(src);
+
+            audio.addEventListener('loadedmetadata', () => {
+                const duration = formatDuration(audio.duration);
+
+                el.textContent = el.textContent.replace('30s', duration);
+            });
+        });
+
+        function formatDuration(seconds) {
+            const m = Math.floor(seconds / 60);
+            const s = Math.floor(seconds % 60);
+            return `${m}:${String(s).padStart(2, '0')}`;
+        }
+        </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            /* ================= VOICE ================= */
+            document.querySelectorAll('.voice-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    document.querySelectorAll('.voice-card').forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    this.querySelector('input').checked = true;
+                });
+            });
+
+            /* ================= DROPDOWNS ================= */
+            document.querySelectorAll('.custom-dropdown').forEach(wrapper => {
+                const header = wrapper.querySelector('.custom-select-header');
+                const options = wrapper.querySelectorAll('.custom-select-options li');
+                const select = wrapper.querySelector('select');
+
+                let textNode = Array.from(header.childNodes)
+                    .find(n => n.nodeType === Node.TEXT_NODE);
+
+                if (!textNode) {
+                    textNode = document.createTextNode('');
+                    header.insertBefore(textNode, header.firstChild);
+                }
+
+                header.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    closeAll(wrapper);
+                    wrapper.classList.toggle('active');
+                });
+
+                options.forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        textNode.textContent = option.textContent + ' ';
+                        select.value = option.dataset.value;
+                        header.classList.add('selected');
+                        wrapper.classList.remove('active');
+                    });
+                });
+            });
+
+            /* ================= DATE PICKER ================= */
+            const datePickerWrapper = document.querySelector('.date-range-picker');
+            const display = datePickerWrapper.querySelector('.date-display');
+            const dropdown = datePickerWrapper.querySelector('.date-picker-dropdown');
+
+            const calendarGrid = document.getElementById('calendarGrid');
+            const monthLabel = document.getElementById('monthLabel');
+
+            const prevBtn = document.getElementById('prevMonth');
+            const nextBtn = document.getElementById('nextMonth');
+
+            const rangePreview = document.getElementById('rangePreview');
+            const dateLabel = document.getElementById('dateLabel');
+
+            const startHour = document.getElementById('startHour');
+            const startMinute = document.getElementById('startMinute');
+            const startAmPm = document.getElementById('startAmPm');
+
+            const hiddenStart = document.getElementById('startDate');
+            const hiddenEnd = document.getElementById('endDate');
+
+            let current = new Date();
+            let start = null;
+            let end = null;
+
+            /* STOP CLOSE WHEN CLICK INSIDE */
+            dropdown.addEventListener('click', e => e.stopPropagation());
+
+            /* INIT TIME */
+            for (let i = 1; i <= 12; i++) {
+                startHour.innerHTML += `<option>${String(i).padStart(2,'0')}</option>`;
+            }
+            for (let i = 0; i < 60; i++) {
+                startMinute.innerHTML += `<option>${String(i).padStart(2,'0')}</option>`;
+            }
+
+            display.addEventListener('click', (e) => {
+                e.stopPropagation();
+                closeAll(datePickerWrapper);
+                datePickerWrapper.classList.toggle('active');
+            });
+
+            function renderCalendar() {
+                calendarGrid.innerHTML = '';
+
+                const year = current.getFullYear();
+                const month = current.getMonth();
+
+                const firstDay = new Date(year, month, 1).getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+                const prevMonthDays = new Date(year, month, 0).getDate();
+
+                monthLabel.textContent = current.toLocaleString('en-US', {
+                    month: 'long',
+                    year: 'numeric'
+                });
+
+                /* ==== PREVIOUS MONTH ==== */
+                for (let i = firstDay - 1; i >= 0; i--) {
+                    const day = prevMonthDays - i;
+                    const el = document.createElement('div');
+                    el.className = 'day other-month';
+                    el.textContent = day;
+                    calendarGrid.appendChild(el);
+                }
+
+                /* ==== CURRENT MONTH ==== */
+                for (let d = 1; d <= daysInMonth; d++) {
+                    const date = new Date(year, month, d);
+                    const el = document.createElement('div');
+                    el.className = 'day';
+                    el.textContent = d;
+
+                    if (start && sameDay(date, start)) {
+                        el.classList.add('selected', 'range-start');
+                    }
+                    if (end && sameDay(date, end)) {
+                        el.classList.add('selected', 'range-end');
+                    }
+                    if (start && end && date > start && date < end) {
+                        el.classList.add('in-range');
+                    }
+
+                    el.onclick = () => selectDate(date);
+                    calendarGrid.appendChild(el);
+                }
+
+                /* ==== NEXT MONTH ==== */
+                const totalCells = calendarGrid.children.length;
+                const nextDays = 42 - totalCells;
+
+                for (let i = 1; i <= nextDays; i++) {
+                    const el = document.createElement('div');
+                    el.className = 'day other-month';
+                    el.textContent = i;
+                    calendarGrid.appendChild(el);
+                }
+            }
+
+            function sameDay(a, b) {
+                return a.toDateString() === b.toDateString();
+            }
+
+            function selectDate(date) {
+                if (!start || (start && end)) {
+                    start = date;
+                    end = null;
+                } else if (date < start) {
+                    end = start;
+                    start = date;
+                } else {
+                    end = date;
+                }
+                updatePreview();
+                renderCalendar();
+            }
+
+            function updatePreview() {
+                if (start && end) {
+                    rangePreview.textContent = `${format(start)} - ${format(end)}`;
+                } else if (start) {
+                    rangePreview.textContent = `${format(start)} - End date`;
+                } else {
+                    rangePreview.textContent = '--';
+                }
+            }
+
+            function format(d) {
+                const day = String(d.getDate()).padStart(2, '0');
+                const month = String(d.getMonth() + 1).padStart(2, '0');
+                const year = String(d.getFullYear()).slice(-2);
+                return `${day}/${month}/${year}`;
+            }
+
+            prevBtn.onclick = () => {
+                current.setMonth(current.getMonth() - 1);
+                renderCalendar();
+            };
+
+            nextBtn.onclick = () => {
+                current.setMonth(current.getMonth() + 1);
+                renderCalendar();
+            };
+
+            datePickerWrapper.querySelector('.btn-apply').onclick = () => {
+                if (!start || !end) return;
+
+                let h = parseInt(startHour.value);
+                if (startAmPm.value === 'PM' && h !== 12) h += 12;
+                if (startAmPm.value === 'AM' && h === 12) h = 0;
+
+                const s = new Date(start);
+                s.setHours(h, parseInt(startMinute.value));
+
+                const e = new Date(end);
+                e.setHours(h, parseInt(startMinute.value));
+
+                hiddenStart.value = toLocalDateTimeString(s);
+                hiddenEnd.value = toLocalDateTimeString(e);
+
+                dateLabel.textContent = `${format(start)} - ${format(end)}`;
+                display.classList.add('selected');
+                datePickerWrapper.classList.remove('active');
+            };
+
+            datePickerWrapper.querySelector('.btn-cancel').onclick = () => {
+                start = null;
+                end = null;
+                updatePreview();
+                renderCalendar();
+                datePickerWrapper.classList.remove('active');
+            };
+
+            /* ================= GLOBAL CLOSE ================= */
+            function closeAll(except = null) {
+                document.querySelectorAll('.select-wrapper').forEach(w => {
+                    if (w !== except) w.classList.remove('active');
+                });
+            }
+
+            document.addEventListener('click', () => closeAll());
+
+            renderCalendar();
+
+            /* ================= DELETE JINGLE ================= */
+            document.addEventListener('click', async (e) => {
+                const btn = e.target.closest('.btn-delete-icon');
+                if (!btn || btn.disabled) return; // Проверяем, не нажата ли уже кнопка
+
+                // 1. Сразу предотвращаем дефолтное поведение и всплытие
+                e.preventDefault();
+                e.stopPropagation();
+
+                // 2. Блокируем кнопку (защита от двойного клика)
+                btn.disabled = true;
+                btn.style.pointerEvents = 'none'; // На всякий случай отключаем мышь
+
+                const item = btn.closest('.jingle-item');
+                const playBtn = item?.querySelector('.play-btn');
+                const id = btn.getAttribute('data-id');
+
+                // Остановка аудио (твой код)
+                if (currentButton && currentButton === playBtn) {
+                    audio.pause();
+                    cancelAnimationFrame(animFrameId);
+                    currentButton = null;
+                }
+
+                try {
+                    const csrfToken = document.querySelector('meta[name="_csrf"]')?.content;
+                    const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.content;
+
+                    const response = await fetch(`/api/jingles/${id}`, {
+                        method: 'DELETE',
+                        headers: {
+                            [csrfHeader]: csrfToken
+                        }
+                    });
+
+                    if (response.ok) {
+                        item.remove();
+                    } else {
+                        // Если ошибка — разблокируем кнопку обратно
+                        btn.disabled = false;
+                        btn.style.pointerEvents = 'auto';
+                        console.error('Delete failed, status:', response.status);
+                    }
+                } catch (err) {
+                    btn.disabled = false;
+                    btn.style.pointerEvents = 'auto';
+                    console.error('Delete failed', err);
+                }
+            });;
+        });
+
+        function toLocalDateTimeString(date) {
+            const pad = n => String(n).padStart(2, '0');
+            return (
+                date.getFullYear() + '-' +
+                pad(date.getMonth() + 1) + '-' +
+                pad(date.getDate()) + 'T' +
+                pad(date.getHours()) + ':' +
+                pad(date.getMinutes()) + ':' +
+                pad(date.getSeconds())
+            );
+        }
+        /* ================= CHAR COUNTER ================= */
+        const textarea = document.querySelector('textarea[name="announcementText"]');
+        const counter = document.querySelector('.char-counter');
+
+        textarea.addEventListener('input', () => {
+            counter.textContent = `${textarea.value.length}/500 characters`;
+            textarea.classList.toggle('has-text', textarea.value.length > 0);
+        });
+    </script>
+    <script>
+        const BAR_COUNT = 55;
+        const BAR_GAP = 2;
+        const audio = document.getElementById("globalAudioPlayer");
+
+        let audioCtx = null;
+        let analyser = null;
+        let source = null;
+        let animFrameId = null;
+        let currentButton = null;
+        let currentCanvas = null;
+        let currentCtx = null;
+
+
+        function setupAudio() {
+            if (audioCtx) return;
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            analyser = audioCtx.createAnalyser();
+            analyser.fftSize = 256;
+            source = audioCtx.createMediaElementSource(audio);
+            source.connect(analyser);
+            analyser.connect(audioCtx.destination);
+        }
+
+        async function drawStaticWaveform(canvas, src) {
+            canvas.width = canvas.getBoundingClientRect().width || 300;
+            canvas.height = 34;
+            const ctx = canvas.getContext("2d");
+
+            try {
+                const response = await fetch(src);
+                const arrayBuffer = await response.arrayBuffer();
+                const tmpCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const audioBuffer = await tmpCtx.decodeAudioData(arrayBuffer);
+                await tmpCtx.close();
+
+                const data = audioBuffer.getChannelData(0);
+                const step = Math.floor(data.length / BAR_COUNT);
+                const bars = [];
+
+                for (let i = 0; i < BAR_COUNT; i++) {
+                    let sum = 0;
+                    for (let j = 0; j < step; j++) {
+                        sum += Math.abs(data[i * step + j]);
+                    }
+                    bars.push(sum / step);
+                }
+
+                const max = Math.max(...bars);
+                const normalized = bars.map(b => b / max);
+                canvas._staticBars = normalized;
+                renderBars(ctx, canvas.width, canvas.height, normalized, false);
+
+            } catch (e) {
+                const fallback = Array.from({ length: BAR_COUNT }, () => Math.random() * 0.8 + 0.1);
+                canvas._staticBars = fallback;
+                renderBars(ctx, canvas.width, canvas.height, fallback, false);
+            }
+        }
+
+        function renderBars(ctx, w, h, bars, active, progress = 0) {
+            ctx.clearRect(0, 0, w, h);
+            const barWidth = (w - (BAR_COUNT - 1) * BAR_GAP) / BAR_COUNT;
+            const centerY = h / 2;
+
+            bars.forEach((val, i) => {
+                const barH = Math.max(3, val * h * 0.95);
+                const x = i * (barWidth + BAR_GAP);
+                const barProgress = i / BAR_COUNT;
+
+                // пройденная часть — чёрная, остаток — серая
+                ctx.fillStyle = active && barProgress <= progress ? "#1a1a1a" : "#c0c0c0";
+
+                ctx.beginPath();
+                ctx.roundRect(x, centerY - barH / 2, barWidth, barH, barWidth / 2);
+                ctx.fill();
+            });
+        }
+        function drawAnimated() {
+            if (!currentCanvas || !analyser) return;
+            animFrameId = requestAnimationFrame(drawAnimated);
+
+            const w = currentCanvas.width;
+            const h = currentCanvas.height;
+            const bars = currentCanvas._staticBars || [];
+
+            const progress = audio.duration ? audio.currentTime / audio.duration : 0;
+
+            renderBars(currentCtx, w, h, bars, true, progress);
+        }
+
+        window.toggleAudio = function(btn) {
+            const src = btn.getAttribute("data-src");
+            const canvas = btn.closest(".jingle-item").querySelector(".waveCanvas");
+
+            setupAudio();
+            if (audioCtx.state === "suspended") audioCtx.resume();
+
+            if (currentButton === btn) {
+                if (audio.paused) {
+                    audio.play();
+                    updateBtn(btn, true);
+                    drawAnimated();
+                } else {
+                    audio.pause();
+                    updateBtn(btn, false);
+                    cancelAnimationFrame(animFrameId);
+                    // ← прогресс сохраняется при паузе
+                    const progress = audio.duration ? audio.currentTime / audio.duration : 0;
+                    renderBars(currentCtx, currentCanvas.width, currentCanvas.height, currentCanvas._staticBars || [], true, progress);
+                }
+                return;
+            }
+
+            if (currentButton) {
+                updateBtn(currentButton, false);
+                cancelAnimationFrame(animFrameId);
+                // ← предыдущий трек сбрасывается в серый
+                const prevCtx = currentButton.closest(".jingle-item").querySelector(".waveCanvas");
+                if (prevCtx) {
+                    const pc = prevCtx.getContext("2d");
+                    renderBars(pc, prevCtx.width, prevCtx.height, prevCtx._staticBars || [], false, 0);
+                }
+            }
+
+            currentButton = btn;
+            currentCanvas = canvas;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            currentCanvas.height = 34;
+            currentCtx = canvas.getContext("2d");
+
+            audio.src = src;
+            audio.play();
+            updateBtn(btn, true);
+
+            drawStaticWaveform(canvas, src).then(() => drawAnimated());
+        };
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // скрываем второй svg
+            document.querySelectorAll('.play-btn').forEach(btn => {
+                const svgs = btn.querySelectorAll('svg');
+                if (svgs.length >= 2) svgs[1].style.display = 'none';
+            });
+
+            // ждём пока layout завершится
+            setTimeout(() => {
+                document.querySelectorAll(".jingle-item").forEach(item => {
+                    const btn = item.querySelector(".play-btn");
+                    const canvas = item.querySelector(".waveCanvas");
+                    if (!btn || !canvas) return;
+                    const src = btn.getAttribute("data-src");
+                    if (src) drawStaticWaveform(canvas, src);
+                });
+            }, 100);
+        });
+
+        // В updateBtn:
+        function updateBtn(btn, playing) {
+            btn.classList.toggle("playing", playing);
+            const svgs = btn.querySelectorAll("svg");
+            if (svgs.length >= 2) {
+                svgs[0].style.display = playing ? "none" : "inline";
+                svgs[1].style.display = playing ? "inline" : "none";
+            }
+        }
+        audio.addEventListener("ended", () => {
+            if (currentButton) updateBtn(currentButton, false);
+            cancelAnimationFrame(animFrameId);
+            if (currentCtx && currentCanvas) {
+                renderBars(currentCtx, currentCanvas.width, currentCanvas.height, currentCanvas._staticBars || [], false);
+            }
+            currentButton = null;
+        });
+    </script>
+    <script>
+        /* =========================
+           STORES MODAL STATE
+        ========================= */
+        let currentJingleId = null;
+        let allStores = [];
+        let selectedStoreIds = new Set();
+        const plusSvg = `<svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.21875 0C7.88149 2.89694e-08 8.41895 0.537454 8.41895 1.2002V6.00879H13.2275L13.3506 6.01562C13.9554 6.07739 14.4277 6.5879 14.4277 7.20898C14.4275 7.82988 13.9553 8.34064 13.3506 8.40234L13.2275 8.40918H8.41895V13.2266L8.41211 13.3496C8.35059 13.9546 7.84002 14.4268 7.21875 14.4268C6.59748 14.4268 6.08691 13.9546 6.02539 13.3496L6.01855 13.2266V8.40918H1.20117C0.538593 8.40918 0.0002638 7.8715 0 7.20898C0 6.54624 0.53843 6.00879 1.20117 6.00879H6.01855V1.2002C6.01855 0.537454 6.55601 -6.06131e-10 7.21875 0Z" fill="black"/></svg>`;
+
+        const checkSvg = `<svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.32102 0.560034C8.67445 -0.000539124 9.41471 -0.168315 9.97531 0.185034C10.5356 0.538426 10.7043 1.27882 10.3513 1.83933L5.62863 9.32957C5.54009 9.47 5.43125 9.64417 5.32395 9.78464C5.21303 9.92982 5.01279 10.1647 4.6882 10.3169C4.29339 10.5018 3.84199 10.5281 3.42844 10.3901L3.30637 10.3432C3.03353 10.2252 2.84618 10.05 2.73508 9.93503C2.61218 9.80785 2.48382 9.64731 2.37961 9.51804L0.265353 6.89499C-0.150225 6.3791 -0.0686885 5.62338 0.446994 5.20749C0.962945 4.79185 1.71864 4.87329 2.13449 5.38914L3.89719 7.57566L8.32102 0.560034Z" fill="black"/></svg>`;
+        /* =========================
+           OPEN MODAL
+        ========================= */
+        function openStoresModal(jingleId) {
+            currentJingleId = jingleId;
+            selectedStoreIds = new Set();
+
+            const modal = document.getElementById("storesModal");
+            const overlay = document.getElementById("storesModalOverlay");
+            if (!modal || !overlay) return;
+
+            // сбрасываем все стор-айтемы в начальное состояние
+            document.querySelectorAll('.store-item').forEach(el => {
+                el.classList.remove('selected');
+                el.querySelector('.store-check').innerHTML = plusSvg;
+            });
+
+            updateSaveBtn();
+            modal.classList.add("active");
+            overlay.classList.add("active");
+        }
+
+        /* =========================
+           RENDER STORES LIST
+        ========================= */
+        function renderStores() {
+            const container = document.getElementById("storesList");
+            if (!container) return;
+
+            const plusSvg = `<svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.21875 0C7.88149 2.89694e-08 8.41895 0.537454 8.41895 1.2002V6.00879H13.2275L13.3506 6.01562C13.9554 6.07739 14.4277 6.5879 14.4277 7.20898C14.4275 7.82988 13.9553 8.34064 13.3506 8.40234L13.2275 8.40918H8.41895V13.2266L8.41211 13.3496C8.35059 13.9546 7.84002 14.4268 7.21875 14.4268C6.59748 14.4268 6.08691 13.9546 6.02539 13.3496L6.01855 13.2266V8.40918H1.20117C0.538593 8.40918 0.0002638 7.8715 0 7.20898C0 6.54624 0.53843 6.00879 1.20117 6.00879H6.01855V1.2002C6.01855 0.537454 6.55601 -6.06131e-10 7.21875 0Z" fill="black"/></svg>`;
+
+            const checkSvg = `<svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.32102 0.560034C8.67445 -0.000539124 9.41471 -0.168315 9.97531 0.185034C10.5356 0.538426 10.7043 1.27882 10.3513 1.83933L5.62863 9.32957C5.54009 9.47 5.43125 9.64417 5.32395 9.78464C5.21303 9.92982 5.01279 10.1647 4.6882 10.3169C4.29339 10.5018 3.84199 10.5281 3.42844 10.3901L3.30637 10.3432C3.03353 10.2252 2.84618 10.05 2.73508 9.93503C2.61218 9.80785 2.48382 9.64731 2.37961 9.51804L0.265353 6.89499C-0.150225 6.3791 -0.0686885 5.62338 0.446994 5.20749C0.962945 4.79185 1.71864 4.87329 2.13449 5.38914L3.89719 7.57566L8.32102 0.560034Z" fill="black"/></svg>`;
+
+            container.innerHTML = allStores.map(store => {
+                const checked = selectedStoreIds.has(store.id);
+                return `
+            <div class="store-item ${checked ? 'selected' : ''}" onclick="toggleStore(${store.id}, this)">
+                <span>${store.name}</span>
+                <span class="store-check">${checked ? checkSvg : plusSvg}</span>
+            </div>
+        `;
+            }).join("");
+
+            updateSaveBtn();
+        }
+
+        /* =========================
+           TOGGLE STORE
+        ========================= */
+        function toggleStore(id, el) {
+            id = Number(id);  // ← приводим к числу
+            const isSelected = selectedStoreIds.has(id);
+            if (isSelected) {
+                selectedStoreIds.delete(id);
+                el.classList.remove('selected');
+                el.querySelector('.store-check').innerHTML = plusSvg;
+            } else {
+                selectedStoreIds.add(id);
+                el.classList.add('selected');
+                el.querySelector('.store-check').innerHTML = checkSvg;
+            }
+            updateSaveBtn();
+        }
+
+        function updateSaveBtn() {
+            const saveBtn = document.querySelector('#storesModal .btn-primary');
+            if (!saveBtn) return;
+            saveBtn.style.background = selectedStoreIds.size > 0 ? '#000' : '#00000033';
+        }
+
+        /* =========================
+           SAVE STORES
+        ========================= */
+        function saveJingleStores() {
+            if (!currentJingleId) return;
+
+            const csrfToken = document.querySelector('meta[name="_csrf"]')?.content;
+            const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.content;
+
+            fetch(`/api/jingles/${currentJingleId}/stores`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    [csrfHeader]: csrfToken
+                },
+                body: JSON.stringify([...selectedStoreIds])
+            })
+                .then(res => {
+                    if (!res.ok) throw new Error("Save failed");
+                    return res.text();
+                })
+                .then(() => {
+                    updateJingleButtonUI(currentJingleId);
+                    closeStoresModal();
+                })
+                .catch(err => console.error("Save error:", err));
+        }
+        /* =========================
+           CLOSE MODAL
+        ========================= */
+        function closeStoresModal() {
+            const modal = document.getElementById("storesModal");
+            const overlay = document.getElementById("storesModalOverlay");
+
+            if (!modal || !overlay) return;
+
+            modal.classList.remove("active");
+            overlay.classList.remove("active");
+        }
+
+        /* =========================
+           UPDATE BUTTON UI
+        ========================= */
+        function updateJingleButtonUI(id) {
+            const btn = document.querySelector(`.btn-location[data-id="${id}"]`);
+            if (!btn) return;
+
+            const count = selectedStoreIds.size;
+
+            btn.classList.toggle("btn-location--active", count > 0);
+
+            const span = btn.querySelector("span");
+            if (!span) return;
+
+            span.innerText =
+                count > 0
+                    ? `${count} location${count > 1 ? "s" : ""}`
+                    : "+ Add to locations";
+        }
+
+        /* =========================
+           BIND BUTTONS (IMPORTANT)
+        ========================= */
+        document.addEventListener("DOMContentLoaded", () => {
+
+            document.querySelectorAll('.btn-location').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = btn.getAttribute('data-id');
+                    if (id) openStoresModal(id);
+                });
+            });
+
+            /* =========================
+               DELETE JINGLE
+            ========================= */
+            document.querySelectorAll('.btn-delete-icon').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const item = btn.closest('.jingle-item');
+                    const id = btn.getAttribute('data-id');
+
+                    if (!id || !item) return;
+
+                    try {
+                        const csrfToken = document.querySelector('meta[name="_csrf"]')?.content;
+                        const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.content;
+
+                        const res = await fetch(`/api/jingles/${id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                [csrfHeader]: csrfToken
+                            }
+                        });
+
+                        if (res.ok) {
+                            item.remove();
+                        }
+                    } catch (e) {
+                        console.error("Delete error:", e);
+                    }
+                });
+            });
+
+            /* =========================
+               CLOSE ON OUTSIDE CLICK
+            ========================= */
+            const overlay = document.getElementById("storesModalOverlay");
+
+            if (overlay) {
+                overlay.addEventListener("click", closeStoresModal);
+            }
+        });
+
+        async function handleApprovePause(btn) {
+            const id = btn.getAttribute('data-id');
+            const jingleItem = btn.closest('.jingle-item');
+
+            // Визуальный отклик (блокировка кнопки)
+            btn.disabled = true;
+            btn.style.opacity = '0.5';
+
+            try {
+                const csrfToken = document.querySelector('meta[name="_csrf"]')?.content;
+                const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.content;
+
+                const response = await fetch(`/api/jingles/approve-pause-request/${id}`, {
+                    method: 'PATCH',
+                    headers: {
+                        [csrfHeader]: csrfToken,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    // Успех: заменяем кнопку на бейдж "Approved" и добавляем класс джинглу
+                    jingleItem.classList.add('status-approved');
+
+                    const actionsDiv = btn.parentElement;
+                    const approvedBadge = document.createElement('span');
+                    approvedBadge.className = 'badge-approved';
+                    approvedBadge.innerHTML = `
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.41667 0C9.96043 7.69658e-05 12.8333 2.87289 12.8333 6.41667C12.8333 9.96045 9.96043 12.8333 6.41667 12.8333C2.87284 12.8333 0 9.96049 0 6.41667C0 2.87284 2.87284 0 6.41667 0ZM8.29769 4.18929C8.04108 4.03011 7.70911 4.09415 7.52865 4.32829L7.49447 4.37728L5.44084 7.68644L4.76408 6.70833L4.72762 6.66105C4.53566 6.43632 4.20061 6.389 3.95231 6.56079C3.70397 6.73271 3.63052 7.06299 3.77344 7.32186L3.80477 7.37256L4.58293 8.4965C4.64407 8.58485 4.71196 8.68448 4.77718 8.76253C4.83475 8.83141 4.92995 8.93396 5.07284 9.00521L5.13664 9.03369C5.35484 9.11862 5.59799 9.11231 5.81169 9.0166L5.87435 8.98527C6.0134 8.90701 6.10342 8.79999 6.15747 8.72835C6.21873 8.64714 6.28139 8.54394 6.33805 8.45264L8.48568 4.99251L8.51473 4.9401C8.64436 4.67445 8.55427 4.34853 8.29769 4.18929Z" fill="black"/>
+    </svg>
+    Approved
+`;
+
+                    btn.remove(); // Удаляем кнопку Approve
+                    actionsDiv.prepend(approvedBadge); // Добавляем бейдж в начало блока действий
+
+                    // Если у вас есть система уведомлений (toast)
+                    if (typeof showToast === 'function') {
+                        showToast("Request approved successfully", "success");
+                    }
+                } else {
+                    const errorText = await response.text();
+                    console.error('Approve failed:', errorText);
+                    alert('Failed to approve request.');
+                    btn.disabled = false;
+                    btn.style.opacity = '1';
+                }
+            } catch (e) {
+                console.error('Network error:', e);
+                btn.disabled = false;
+                btn.style.opacity = '1';
+            }
+        }
+    </script>
+</th:block>
+</html>

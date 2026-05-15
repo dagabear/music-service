@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="toast">
+    <div id="toast-container"></div>
+
+    <script th:inline="javascript">
+        function showToast(message, duration = 3000) {
+            const container = document.getElementById('toast-container');
+
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `
+                <div class="toast-icon">
+                    <img src="/assets/icons/icon-checkmark-circle.svg" width="28" height="28" alt=""/>
+                </div>
+                <span class="toast-message">${message}</span>
+            `;
+
+            container.appendChild(toast);
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => toast.classList.add('show'));
+            });
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+                toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+            }, duration);
+        }
+
+        const flashToast = /*[[${toast}]]*/ null;
+        if (flashToast) showToast(flashToast);
+    </script>
+</div>
+
+</html>

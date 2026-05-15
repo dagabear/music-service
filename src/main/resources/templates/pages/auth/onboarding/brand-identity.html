@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/onboarding :: layout(~{::content}, 'Brand Identity', 'brand-identity.css', 'step-2.png')}">
+
+<th:block th:fragment="content">
+    <div class="step-content">
+        <div class="title-content">
+            <h1>What's your brand's identity?</h1>
+        </div>
+
+        <form th:action="@{/onboarding/step-2}" method="post" id="brandForm">
+            <div class="chips">
+                <label th:each="identity : ${brandIdentities}" class="chip">
+                    <input type="radio" name="atmosphere" th:value="${identity}">
+                    <span th:text="${identity.name}">Warm & Welcoming</span>
+                </label>
+            </div>
+
+            <hr>
+            <button class="btn-primary" type="submit" id="continueBtn">
+                Continue
+            </button>
+        </form>
+    </div>
+</th:block>
+</html>

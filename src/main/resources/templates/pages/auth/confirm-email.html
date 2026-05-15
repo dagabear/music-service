@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/onboarding :: layout(~{::content}, 'Email confirmed', 'verification-sent.css', 'step-6.png')}">
+
+<th:block th:fragment="content">
+    <div class="sent-content">
+        <div class="title-content">
+            <h1>Email confirmed</h1>
+            <p>Your email has been successfully updated!</p>
+        </div>
+        <hr>
+        <div class="info-box">
+            <a href="/settings" class="resend-link">Back to Profile</a>
+        </div>
+    </div>
+</th:block>
+</html>
