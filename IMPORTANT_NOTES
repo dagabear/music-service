@@ -1,0 +1,6 @@
+В application.properties надо поставить свои данные:
+spring.mail.username=your_email@mail.com
+spring.mail.password=your password
+
+Для поддержания интеграции с ElevenLabs рекомендуется ротация API ключа
+Для смены окружения с локального на продакшен окружение нужно поменять пропсы хоста (localhost -> weresona.com), и URL музыки тоже
